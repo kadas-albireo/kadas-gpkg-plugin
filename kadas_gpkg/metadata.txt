@@ -1,0 +1,24 @@
+[general]
+name=KADAS GPKG
+qgisMinimumVersion=2.0
+qgisMaximumVersion=2.99
+description=KADAS GPKG plugin
+about=KADAS GPKG plugin.
+version=0.1.0
+author=Sourcepole
+email=smani@sourcepole.ch
+
+
+changelog=
+ Rev 0.1.0 (28.05.2018)
+  - Initial release
+
+# Tags are comma separated with spaces allowed
+tags=
+
+homepage=https://gitlab.sourcepole.ch/sourcepole/kadas-gpkg-plugin
+tracker=https://gitlab.sourcepole.ch/sourcepole/kadas-gpkg-plugin/issues
+repository=https://gitlab.sourcepole.ch/sourcepole/kadas-gpkg-plugin
+icon=icon.png
+experimental=False
+deprecated=False
