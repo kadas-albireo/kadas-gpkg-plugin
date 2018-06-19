@@ -16,6 +16,8 @@ import subprocess
 import tempfile
 from xml.etree import ElementTree as ET
 
+from kadas_gpkg_export_dialog import KadasGpkgExportDialog
+
 
 class KadasGpkgExport(QObject):
 
@@ -24,13 +26,12 @@ class KadasGpkgExport(QObject):
         self.iface = iface
 
     def run(self):
-        lastDir = QSettings().value("/UI/lastImportExportDir", ".")
-        gpkg_filename = QFileDialog.getSaveFileName(self.iface.mainWindow(), self.tr("GPKG Export"), lastDir, self.tr("GPKG Database (*.gpkg)"))[0]
-
-        if not gpkg_filename:
+        dialog = KadasGpkgExportDialog(self.find_local_layers(), self.iface.mainWindow())
+        if dialog.exec_() != QDialog.Accepted:
             return
 
-        QSettings().setValue("/UI/lastImportExportDir", os.path.dirname(gpkg_filename))
+        gpkg_filename = dialog.getOutputFile()
+        local_layers = dialog.getSelectedLayers()
 
         # Open database
         try:
@@ -43,10 +44,9 @@ class KadasGpkgExport(QObject):
         self.init_gpkg(cursor)
 
         # Look for local layers which are not already in the GPKG
-        local_layers = self.find_local_layers(gpkg_filename)
         new_gpkg_layers = []
 
-        # Copy all local layers to the database if they are not already in the DB
+        # Copy all local layers to the database
         messages = []
         for layerid in local_layers:
             layer = QgsMapLayerRegistry.instance().mapLayer(layerid)
@@ -63,18 +63,13 @@ class KadasGpkgExport(QObject):
                     messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
             elif layer.type() == QgsMapLayer.RasterLayer:
                 filename = layer.source()
-                if os.path.isfile(filename):
-                    filesize = os.path.getsize(filename)
-                    if filesize < 50 * 1024 * 1024:
-                        cmd = ["gdal_translate", "-of", "GPKG", "-co", "APPEND_SUBDATASET=YES", filename, gpkg_filename]
-                        process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE)
-                        process.wait()
-                        if process.returncode == 0:
-                            new_gpkg_layers.append(layerid)
-                        else:
-                            messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
-                    else:
-                        messages.append("%s: %s" % (layer.name(), self.tr("Skipping raster layer larger than 50 MB")))
+                cmd = ["gdal_translate", "-of", "GPKG", "-co", "APPEND_SUBDATASET=YES", filename, gpkg_filename]
+                process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE)
+                process.wait()
+                if process.returncode == 0:
+                    new_gpkg_layers.append(layerid)
+                else:
+                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
                 # FIXME: Use QgsRasterFileWriter
                 #provider = layer.dataProvider()
                 #writer = QgsRasterFileWriter(gpkg_filename)
@@ -157,7 +152,7 @@ class KadasGpkgExport(QObject):
         if messages:
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The following layers were not exported to the GeoPackage:\n- " + "\n- ".join(messages)))
 
-    def find_local_layers(self, gpkg_filename):
+    def find_local_layers(self):
         local_layers = {}
         local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr",
         "postgres", "spatialite"]
@@ -170,7 +165,7 @@ class KadasGpkgExport(QObject):
                 provider = "plugin"
 
             # Local layers which are not already saved in the gpkg databse
-            if provider in local_providers and not layer.source().startswith(gpkg_filename):
+            if provider in local_providers:
                 local_layers[layer.id()] = layer.type()
 
         return local_layers
