@@ -90,7 +90,7 @@ class KadasGpkgExport(QObject):
                 elif process.returncode == 0:
                     new_gpkg_layers.append(layerid)
                 else:
-                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
+                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed. Does the GeoPackage already contain a table with the same name?")))
                 pdialog.reset()
                 # FIXME: Use QgsRasterFileWriter
                 #provider = layer.dataProvider()
