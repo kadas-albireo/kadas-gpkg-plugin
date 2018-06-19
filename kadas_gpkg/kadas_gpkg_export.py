@@ -50,6 +50,7 @@ class KadasGpkgExport(QObject):
         new_gpkg_layers = []
 
         # Copy all local layers to the database
+        canceled = False
         messages = []
         for layerid in local_layers:
             layer = QgsMapLayerRegistry.instance().mapLayer(layerid)
@@ -68,11 +69,29 @@ class KadasGpkgExport(QObject):
                 filename = layer.source()
                 cmd = ["gdal_translate", "-of", "GPKG", "-co", "APPEND_SUBDATASET=YES", filename, gpkg_filename]
                 process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE)
-                process.wait()
-                if process.returncode == 0:
+                pdialog = QProgressDialog(self.tr("Writing %s...") % layer.name(), self.tr("Cancel"), 0, 0,  self.iface.mainWindow())
+                pdialog.setWindowModality(Qt.WindowModal)
+                pdialog.setWindowTitle(self.tr("GPKG Export"))
+                timer = QTimer()
+                timer.setSingleShot(True)
+                # Poll every 100ms until done
+                while process.returncode is None:
+                    process.poll()
+                    loop = QEventLoop()
+                    timer.timeout.connect(loop.quit)
+                    timer.start(100)
+                    loop.exec_()
+                    if pdialog.wasCanceled():
+                        canceled = True
+                        break
+                if canceled:
+                    process.kill()
+                    break
+                elif process.returncode == 0:
                     new_gpkg_layers.append(layerid)
                 else:
                     messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
+                pdialog.reset()
                 # FIXME: Use QgsRasterFileWriter
                 #provider = layer.dataProvider()
                 #writer = QgsRasterFileWriter(gpkg_filename)
@@ -87,6 +106,11 @@ class KadasGpkgExport(QObject):
 
                 #writer.writeRaster(pipe, provider.xSize(), provider.ySize(), provider.extent(), provider.crs())
                 #new_gpkg_layers.append(layerid)
+
+        if canceled:
+            QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
+            conn.rollback()
+            return
 
         # Write project to temporary file
         tmpdir = tempfile.mkdtemp()
