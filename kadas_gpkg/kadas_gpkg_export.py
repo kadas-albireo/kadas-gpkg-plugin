@@ -33,6 +33,9 @@ class KadasGpkgExport(QObject):
         gpkg_filename = dialog.getOutputFile()
         local_layers = dialog.getSelectedLayers()
 
+        if dialog.clearOutputFile():
+            os.remove(gpkg_filename)
+
         # Open database
         try:
             conn = sqlite3.connect(gpkg_filename)

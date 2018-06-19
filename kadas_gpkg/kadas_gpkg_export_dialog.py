@@ -96,6 +96,9 @@ class KadasGpkgExportDialog(QDialog):
     def getOutputFile(self):
         return self.outputGpkg
 
+    def clearOutputFile(self):
+        return self.ui.checkBoxClear.isChecked()
+
     def getSelectedLayers(self):
         layers = {}
         for i in range(0, self.ui.listWidgetLayers.count()):

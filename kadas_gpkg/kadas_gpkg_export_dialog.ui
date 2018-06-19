@@ -105,6 +105,16 @@
      </property>
     </widget>
    </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>The project, including embedded layers (annotations, redlining, ...), will be written to the Geopackage.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -136,13 +146,10 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QLabel" name="label_2">
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="checkBoxClear">
      <property name="text">
-      <string>The project, including embedded layers (annotations, redlining, ...), will be written to the Geopackage.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
+      <string>Clear existing GeoPackage before exporting</string>
      </property>
     </widget>
    </item>
