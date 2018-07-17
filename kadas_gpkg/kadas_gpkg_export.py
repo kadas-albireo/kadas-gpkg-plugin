@@ -90,7 +90,7 @@ class KadasGpkgExport(QObject):
                 elif process.returncode == 0:
                     new_gpkg_layers.append(layerid)
                 else:
-                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed. Does the GeoPackage already contain a table with the same name?")))
+                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed. Does the GeoPackage already contain a table with the same name as an exported layer?")))
                 pdialog.reset()
                 # FIXME: Use QgsRasterFileWriter
                 #provider = layer.dataProvider()
@@ -177,7 +177,7 @@ class KadasGpkgExport(QObject):
         self.iface.messageBar().pushMessage( self.tr( "GPKG Export Completed" ), "", QgsMessageBar.INFO, 5 )
 
         if messages:
-            QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The following layers were not exported to the GeoPackage:\n- " + "\n- ".join(messages)))
+            QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The following layers were not exported to the GeoPackage:\n- %s") % "\n- ".join(messages))
 
     def find_local_layers(self):
         local_layers = {}

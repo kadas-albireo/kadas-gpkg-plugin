@@ -23,7 +23,7 @@ class KadasGpkg(QObject):
         locale_path = os.path.join(
             os.path.dirname(__file__),
             'i18n',
-            'UserManual_{}.qm'.format(self.locale))
+            'kadas_gpkg_{}.qm'.format(self.locale))
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()

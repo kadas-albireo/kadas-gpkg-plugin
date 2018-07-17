@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'kadas_gpkg_export_dialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.2.dev1805251538
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_GPKGExportDialog(object):
     def setupUi(self, GPKGExportDialog):
         GPKGExportDialog.setObjectName("GPKGExportDialog")
-        GPKGExportDialog.resize(468, 235)
+        GPKGExportDialog.resize(468, 262)
         self.gridLayout = QtWidgets.QGridLayout(GPKGExportDialog)
         self.gridLayout.setObjectName("gridLayout")
         self.labelNote = QtWidgets.QLabel(GPKGExportDialog)
@@ -85,7 +85,7 @@ class Ui_GPKGExportDialog(object):
         self.labelNote.setText(_translate("GPKGExportDialog", "<html><head/><body><p><span style=\" font-size:small; font-style:italic;\">Layers larger than 50 MB are deselected by default.</span></p></body></html>"))
         self.label.setText(_translate("GPKGExportDialog", "<small><i>Layers already part of the output GeoPackage are disabled.</i></small>"))
         self.labelExport.setText(_translate("GPKGExportDialog", "Additionally, the following local layers will be added to the GeoPackage:"))
-        self.label_2.setText(_translate("GPKGExportDialog", "The project, including embedded layers (annotations, redlining, ...), will be written to the Geopackage."))
+        self.label_2.setText(_translate("GPKGExportDialog", "The project, including embedded layers (annotations, redlining, ...), will be written to the GeoPackage."))
         self.labelOutputFile.setText(_translate("GPKGExportDialog", "Output file:"))
         self.buttonSelectFile.setText(_translate("GPKGExportDialog", "Browse"))
         self.checkBoxClear.setText(_translate("GPKGExportDialog", "Clear existing GeoPackage before exporting"))

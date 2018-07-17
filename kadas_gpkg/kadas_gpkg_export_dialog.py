@@ -64,7 +64,7 @@ class KadasGpkgExportDialog(QDialog):
 
     def __selectOutputFile(self):
         lastDir = QSettings().value("/UI/lastImportExportDir", ".")
-        filename = QFileDialog.getSaveFileName(self, self.tr("Select GPKG Databse..."), lastDir, self.tr("GPKG Database (*.gpkg)"), "", QFileDialog.DontConfirmOverwrite)[0]
+        filename = QFileDialog.getSaveFileName(self, self.tr("Select GPKG File..."), lastDir, self.tr("GPKG Database (*.gpkg)"), "", QFileDialog.DontConfirmOverwrite)[0]
 
         if not filename:
             return
