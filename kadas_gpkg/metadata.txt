@@ -4,12 +4,16 @@ qgisMinimumVersion=2.0
 qgisMaximumVersion=2.99
 description=KADAS GPKG plugin
 about=KADAS GPKG plugin.
-version=0.1.0
+version=0.2.0
 author=Sourcepole
 email=smani@sourcepole.ch
 
 
 changelog=
+ Rev 0.2.0 (17.07.2018)
+  - Add export dialog
+  - Show feedback when exporting large raster layers and allow canceling
+
  Rev 0.1.0 (28.05.2018)
   - Initial release
 
