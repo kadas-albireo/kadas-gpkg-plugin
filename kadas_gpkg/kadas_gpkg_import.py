@@ -97,7 +97,11 @@ class KadasGpkgImport(QObject):
             cursor.execute('SELECT xml FROM qgis_projects WHERE name=?', (project_name,))
         except sqlite3.OperationalError:
             return None
-        return cursor.fetchone()[0]
+        qgis_projects = cursor.fetchone()
+        if qgis_projects is None:
+            return None
+        else:
+            return qgis_projects[0]
 
     def extract_resource(self, cursor, outputdir, gpkg_path):
         """ Extract a resource file from qgis_resources """
