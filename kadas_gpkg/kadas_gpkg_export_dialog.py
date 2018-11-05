@@ -24,6 +24,7 @@ class KadasGpkgExportDialog(QDialog):
         self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
 
         self.ui.buttonSelectFile.clicked.connect(self.__selectOutputFile)
+        self.ui.checkBoxClear.toggled.connect(self.__updateLayerList)
 
         # Populate layer selection list
         reg = QgsMapLayerRegistry.instance()
@@ -80,7 +81,9 @@ class KadasGpkgExportDialog(QDialog):
         self.ui.lineEditOutputFile.setText(self.outputGpkg)
 
         self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.outputGpkg is not None)
+        self.__updateLayerList()
 
+    def __updateLayerList(self):
         # Update layer list
         reg = QgsMapLayerRegistry.instance()
         for i in range(0, self.ui.listWidgetLayers.count()):
@@ -88,7 +91,7 @@ class KadasGpkgExportDialog(QDialog):
             layerid = item.data(KadasGpkgExportDialog.LayerIdRole)
             layer = reg.mapLayer(layerid)
             # Disable layers already in GPKG
-            if layer.source().startswith(self.outputGpkg):
+            if layer.source().startswith(self.outputGpkg) and not self.clearOutputFile():
                 item.setFlags(item.flags() & ~(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
                 item.setIcon(QIcon(":/images/themes/default/mIconSuccess.png"))
             else:
