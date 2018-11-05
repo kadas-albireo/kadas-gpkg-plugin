@@ -49,8 +49,14 @@ class KadasGpkgExport(QObject):
             QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Unable to create or open output file"))
             return
 
+        pdialog = QProgressDialog(self.tr("Writing %s...") % os.path.basename(gpkg_filename), self.tr("Cancel"), 0, 0,  self.iface.mainWindow())
+        pdialog.setWindowModality(Qt.WindowModal)
+        pdialog.setWindowTitle(self.tr("GPKG Export"))
+        pdialog.show()
+
         cursor = conn.cursor()
         self.init_gpkg(cursor)
+        QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
 
         # Look for local layers which are not already in the GPKG
         new_gpkg_layers = []
@@ -59,6 +65,12 @@ class KadasGpkgExport(QObject):
         canceled = False
         messages = []
         for layerid in local_layers:
+
+            QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
+            if pdialog.wasCanceled():
+                canceled = True
+                break
+
             layer = QgsMapLayerRegistry.instance().mapLayer(layerid)
             if layer.type() == QgsMapLayer.VectorLayer:
                 saveOptions = QgsVectorFileWriter.SaveVectorOptions()
@@ -78,9 +90,6 @@ class KadasGpkgExport(QObject):
                 if sys.platform == 'win32':
                     creationFlags = 0x08000000  # CREATE_NO_WINDOW
                 process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, creationflags=creationFlags)
-                pdialog = QProgressDialog(self.tr("Writing %s...") % layer.name(), self.tr("Cancel"), 0, 0,  self.iface.mainWindow())
-                pdialog.setWindowModality(Qt.WindowModal)
-                pdialog.setWindowTitle(self.tr("GPKG Export"))
                 timer = QTimer()
                 timer.setSingleShot(True)
                 # Poll every 100ms until done
@@ -90,6 +99,7 @@ class KadasGpkgExport(QObject):
                     timer.timeout.connect(loop.quit)
                     timer.start(100)
                     loop.exec_()
+                    QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
                     if pdialog.wasCanceled():
                         canceled = True
                         break
