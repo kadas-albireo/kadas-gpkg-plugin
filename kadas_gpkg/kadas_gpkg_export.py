@@ -30,17 +30,22 @@ class KadasGpkgExport(QObject):
         if dialog.exec_() != QDialog.Accepted:
             return
 
+
+        # Write project to temporary file
+        tmpdir = tempfile.mkdtemp()
+
         gpkg_filename = dialog.getOutputFile()
         local_layers = dialog.getSelectedLayers()
+        gpkg_writefile = gpkg_filename
 
         if dialog.clearOutputFile():
-            os.remove(gpkg_filename)
+            gpkg_writefile = os.path.join(tmpdir, os.path.basename(gpkg_filename))
 
         # Open database
         try:
-            conn = sqlite3.connect(gpkg_filename)
+            conn = sqlite3.connect(gpkg_writefile)
         except:
-            QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Unable to open %s") % gpkg_filename)
+            QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Unable to create or open output file"))
             return
 
         cursor = conn.cursor()
@@ -60,14 +65,14 @@ class KadasGpkgExport(QObject):
                 saveOptions.layerName = layer.name()
                 saveOptions.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
                 saveOptions.fileEncoding = 'utf-8'
-                ret = QgsVectorFileWriter.writeAsVectorFormat(layer, gpkg_filename, saveOptions)
+                ret = QgsVectorFileWriter.writeAsVectorFormat(layer, gpkg_writefile, saveOptions)
                 if ret == 0:
                     new_gpkg_layers.append(layerid)
                 else:
                     messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
             elif layer.type() == QgsMapLayer.RasterLayer:
                 filename = layer.source()
-                cmd = ["gdal_translate", "-of", "GPKG", "-co", "APPEND_SUBDATASET=YES", filename, gpkg_filename]
+                cmd = ["gdal_translate", "-of", "GPKG", "-co", "APPEND_SUBDATASET=YES", filename, gpkg_writefile]
                 process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE)
                 pdialog = QProgressDialog(self.tr("Writing %s...") % layer.name(), self.tr("Cancel"), 0, 0,  self.iface.mainWindow())
                 pdialog.setWindowModality(Qt.WindowModal)
@@ -94,7 +99,7 @@ class KadasGpkgExport(QObject):
                 pdialog.reset()
                 # FIXME: Use QgsRasterFileWriter
                 #provider = layer.dataProvider()
-                #writer = QgsRasterFileWriter(gpkg_filename)
+                #writer = QgsRasterFileWriter(gpkg_writefile)
                 #writer.setOutputFormat('gpkg')
                 #writer.setCreateOptions(['RASTER_TABLE=%s' % layer.name(), 'APPEND_SUBDATASET=YES'])
                 #pipe = QgsRasterPipe()
@@ -111,9 +116,6 @@ class KadasGpkgExport(QObject):
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
             conn.rollback()
             return
-
-        # Write project to temporary file
-        tmpdir = tempfile.mkdtemp()
 
         project = QgsProject.instance()
         prev_filename = project.fileName()
@@ -176,6 +178,19 @@ class KadasGpkgExport(QObject):
         self.write_project(cursor, project_xml)
 
         conn.commit()
+        conn.close()
+
+        if dialog.clearOutputFile():
+            try:
+                os.remove(gpkg_filename)
+            except:
+                pass
+            try:
+                shutil.move(gpkg_writefile, gpkg_filename)
+            except:
+                QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Unable to create output file"))
+                shutil.rmtree(tmpdir)
+                return
 
         shutil.rmtree(tmpdir)
 
