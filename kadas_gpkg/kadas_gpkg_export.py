@@ -134,13 +134,18 @@ class KadasGpkgExport(QObject):
         sources = []
         for projectlayerEl in doc.find("projectlayers"):
             layerId = projectlayerEl.find("id").text
+            datasource = projectlayerEl.find("datasource")
             if layerId in new_gpkg_layers:
+                layer = QgsMapLayerRegistry.instance().mapLayer(layerId)
                 if local_layers[layerId] == QgsMapLayer.VectorLayer:
-                    projectlayerEl.find("datasource").text = gpkg_filename
+                    datasource.text = "@gpkg_file@|layername=" + layer.name()
                     projectlayerEl.find("provider").text = "ogr"
                 elif local_layers[layerId] == QgsMapLayer.RasterLayer:
-                    projectlayerEl.find("datasource").text = gpkg_filename
+                    datasource.text = "GPKG:@gpkg_file@:" + layer.name()
                     projectlayerEl.find("provider").text = "gdal"
+            elif datasource.text.startswith(gpkg_filename) or datasource.text.startswith("GPKG:" + gpkg_filename):
+                datasource.text = datasource.text.replace(gpkg_filename, "@gpkg_file@")
+
 
         ### Search for referenced images in project file and add them to the GPKG
         images = {}

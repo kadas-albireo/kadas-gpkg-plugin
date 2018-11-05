@@ -77,6 +77,11 @@ class KadasGpkgImport(QObject):
                 tmppath = self.extract_resource(cursor, tmpdir, img)
                 annotation.set('file', tmppath)
 
+        ### Fixup layer paths
+        for projectlayerEl in doc.find("projectlayers"):
+            datasource = projectlayerEl.find("datasource")
+            datasource.text = datasource.text.replace("@gpkg_file@", gpkg_filename)
+
         ### Write project
         xml = ET.tostring(doc)
         output = os.path.join(tmpdir, self.tr("Imported GPKG Project") + ".qgs")
