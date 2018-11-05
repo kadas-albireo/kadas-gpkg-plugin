@@ -13,6 +13,7 @@ import mimetypes
 import sqlite3
 import shutil
 import subprocess
+import sys
 import tempfile
 from xml.etree import ElementTree as ET
 
@@ -73,7 +74,10 @@ class KadasGpkgExport(QObject):
             elif layer.type() == QgsMapLayer.RasterLayer:
                 filename = layer.source()
                 cmd = ["gdal_translate", "-of", "GPKG", "-co", "APPEND_SUBDATASET=YES", filename, gpkg_writefile]
-                process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE)
+                creationFlags = 0
+                if sys.platform == 'win32':
+                    creationFlags = 0x08000000  # CREATE_NO_WINDOW
+                process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, creationflags=creationFlags)
                 pdialog = QProgressDialog(self.tr("Writing %s...") % layer.name(), self.tr("Cancel"), 0, 0,  self.iface.mainWindow())
                 pdialog.setWindowModality(Qt.WindowModal)
                 pdialog.setWindowTitle(self.tr("GPKG Export"))
