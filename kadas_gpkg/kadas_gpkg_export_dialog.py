@@ -51,7 +51,10 @@ class KadasGpkgExportDialog(QDialog):
                 if not filename:
                     continue
 
-            filesize = os.path.getsize(filename)
+            try:
+                filesize = os.path.getsize(filename)
+            except:
+                filesize = 0
             item = QListWidgetItem(layer.name())
             item.setData(KadasGpkgExportDialog.LayerIdRole, layerid)
             item.setData(KadasGpkgExportDialog.LayerTypeRole, self.layers[layerid])
