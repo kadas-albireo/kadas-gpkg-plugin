@@ -27,7 +27,9 @@ class KadasGpkgExportDialog(QDialog):
 
         # Populate layer selection list
         reg = QgsMapLayerRegistry.instance()
-        for layerid in self.layers:
+        sortedIds = self.layers.keys()
+        sortedIds.sort(key=lambda layerId: self.__getLayerName(reg, layerId).lower())
+        for layerid in sortedIds:
             layer = reg.mapLayer(layerid)
             if not layer:
                 continue
@@ -61,6 +63,10 @@ class KadasGpkgExportDialog(QDialog):
                 item.setIcon(QIcon(":/images/themes/default/mIconWarn.png"))
 
             self.ui.listWidgetLayers.addItem(item)
+
+    def __getLayerName(self, reg, layerId):
+        layer = reg.mapLayer(layerId)
+        return layer.name() if layer else ""
 
     def __selectOutputFile(self):
         lastDir = QSettings().value("/UI/lastImportExportDir", ".")
