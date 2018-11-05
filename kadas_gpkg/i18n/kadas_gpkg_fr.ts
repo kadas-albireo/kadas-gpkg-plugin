@@ -60,32 +60,32 @@
 <context>
     <name>KadasGpkgExport</name>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="130"/>
+        <location filename="../kadas_gpkg_export.py" line="191"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_export.py" line="43"/>
         <source>Unable to open %s</source>
-        <translation>Impossible d&apos;ouvrir %s</translation>
+        <translation type="obsolete">Impossible d&apos;ouvrir %s</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="67"/>
+        <location filename="../kadas_gpkg_export.py" line="72"/>
         <source>Write failed</source>
         <translation>Impossible d&apos;écrire le ficher</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="72"/>
+        <location filename="../kadas_gpkg_export.py" line="77"/>
         <source>Writing %s...</source>
         <translation>%s en cours d&apos;écriture...</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="72"/>
+        <location filename="../kadas_gpkg_export.py" line="77"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="180"/>
+        <location filename="../kadas_gpkg_export.py" line="200"/>
         <source>GPKG Export</source>
         <translation>Exportation GPKG</translation>
     </message>
@@ -95,31 +95,41 @@
         <translation type="obsolete">Ne peut pas écrire. Est-ce que le GeoPackage contient déjà une table avec le même nom?</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="111"/>
+        <location filename="../kadas_gpkg_export.py" line="116"/>
         <source>The operation was canceled.</source>
         <translation>L&apos;opération a été annulée.</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="130"/>
+        <location filename="../kadas_gpkg_export.py" line="132"/>
         <source>Invalid project</source>
         <translation>Projet invalide</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="177"/>
+        <location filename="../kadas_gpkg_export.py" line="197"/>
         <source>GPKG Export Completed</source>
         <translation>Exportation GPKG terminé avec succès</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="93"/>
+        <location filename="../kadas_gpkg_export.py" line="98"/>
         <source>Write failed. Does the GeoPackage already contain a table with the same name as an exported layer?</source>
         <translation>Ne peut pas écrire. Le GeoPackage contient-il déjà une table avec le même nom qu&apos;un couche à exporter?</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="180"/>
+        <location filename="../kadas_gpkg_export.py" line="200"/>
         <source>The following layers were not exported to the GeoPackage:
 - %s</source>
         <translation>Les couches suivantes n&apos;ont pas été écrites dans le GeoPackage:
 - %s</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg_export.py" line="48"/>
+        <source>Unable to create or open output file</source>
+        <translation>Impossible de créer ou d&apos;ouvrir le fichier de sortie</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg_export.py" line="191"/>
+        <source>Unable to create output file</source>
+        <translation>Impossible de créer le fichier de sortie</translation>
     </message>
 </context>
 <context>
@@ -130,12 +140,12 @@
         <translation type="obsolete">Selectionnér le database GPKG...</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export_dialog.py" line="67"/>
+        <location filename="../kadas_gpkg_export_dialog.py" line="78"/>
         <source>GPKG Database (*.gpkg)</source>
         <translation>Base des données GPKG (*.gpkg)</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export_dialog.py" line="67"/>
+        <location filename="../kadas_gpkg_export_dialog.py" line="78"/>
         <source>Select GPKG File...</source>
         <translation>Choisir le fichier GPKG ...</translation>
     </message>
@@ -178,12 +188,12 @@
         <translation>%s ne contient pas un projet valide</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="82"/>
+        <location filename="../kadas_gpkg_import.py" line="87"/>
         <source>Imported GPKG Project</source>
         <translation>Projet GPKG importé</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="91"/>
+        <location filename="../kadas_gpkg_import.py" line="96"/>
         <source>GPKG Import Completed</source>
         <translation>Importation GPKG terminé avec succès</translation>
     </message>

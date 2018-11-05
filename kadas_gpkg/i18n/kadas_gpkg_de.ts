@@ -46,7 +46,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="88"/>
         <source>The project, including embedded layers (annotations, redlining, ...), will be written to the GeoPackage.</source>
-        <translation type="unfinished">Das Project, inklusive darin enthaltene Ebenen (Annotationen, Redlining, ...), wird ins GeoPackage geschrieben.</translation>
+        <translation>Das Project, inklusive darin enthaltene Ebenen (Annotationen, Redlining, ...), wird ins GeoPackage geschrieben.</translation>
     </message>
 </context>
 <context>
@@ -65,32 +65,32 @@
 <context>
     <name>KadasGpkgExport</name>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="130"/>
+        <location filename="../kadas_gpkg_export.py" line="191"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_export.py" line="43"/>
         <source>Unable to open %s</source>
-        <translation>%s konnte nicht geöffnet werden</translation>
+        <translation type="obsolete">%s konnte nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="67"/>
+        <location filename="../kadas_gpkg_export.py" line="72"/>
         <source>Write failed</source>
         <translation>Schreiben fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="72"/>
+        <location filename="../kadas_gpkg_export.py" line="77"/>
         <source>Writing %s...</source>
         <translation>%s wird geschrieben...</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="72"/>
+        <location filename="../kadas_gpkg_export.py" line="77"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="180"/>
+        <location filename="../kadas_gpkg_export.py" line="200"/>
         <source>GPKG Export</source>
         <translation>GPKG Export</translation>
     </message>
@@ -100,17 +100,17 @@
         <translation type="obsolete">Screiben fehlgeschlagen. Enthält das GeoPackage bereits eine Ebene mit demselben Namen?</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="111"/>
+        <location filename="../kadas_gpkg_export.py" line="116"/>
         <source>The operation was canceled.</source>
         <translation>Der Export wurde abgebrochen.</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="130"/>
+        <location filename="../kadas_gpkg_export.py" line="132"/>
         <source>Invalid project</source>
         <translation>Ungültiges Projekt</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="177"/>
+        <location filename="../kadas_gpkg_export.py" line="197"/>
         <source>GPKG Export Completed</source>
         <translation>GPKG Export erfolgreich abgeschlossen</translation>
     </message>
@@ -122,16 +122,26 @@
         <translation type="obsolete">Folgende Ebenen wurden nicht is GeoPackage geschrieben:</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="93"/>
+        <location filename="../kadas_gpkg_export.py" line="98"/>
         <source>Write failed. Does the GeoPackage already contain a table with the same name as an exported layer?</source>
         <translation>Screiben fehlgeschlagen. Enthält das GeoPackage bereits eine Tabelle mit demselben Namen als eine exportierte Ebene?</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="180"/>
+        <location filename="../kadas_gpkg_export.py" line="200"/>
         <source>The following layers were not exported to the GeoPackage:
 - %s</source>
         <translation>Folgende Ebenen wurden nicht ins GeoPackage geschrieben:
 - %s</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg_export.py" line="48"/>
+        <source>Unable to create or open output file</source>
+        <translation>Ausgabedatei konnte nicht erstellt oder geöffnet werden</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg_export.py" line="191"/>
+        <source>Unable to create output file</source>
+        <translation>Ausgabedatei konnte nicht erstellt werden</translation>
     </message>
 </context>
 <context>
@@ -142,12 +152,12 @@
         <translation type="obsolete">GPKG Datenbank auswählen...</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export_dialog.py" line="67"/>
+        <location filename="../kadas_gpkg_export_dialog.py" line="78"/>
         <source>GPKG Database (*.gpkg)</source>
         <translation>GPKG Datenbank (*.gpkg)</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export_dialog.py" line="67"/>
+        <location filename="../kadas_gpkg_export_dialog.py" line="78"/>
         <source>Select GPKG File...</source>
         <translation>GPKG Datei auswählen...</translation>
     </message>
@@ -190,12 +200,12 @@
         <translation>Kein gültiges Projekt wurde in %s gefunden</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="82"/>
+        <location filename="../kadas_gpkg_import.py" line="87"/>
         <source>Imported GPKG Project</source>
         <translation>Importiertes GPKG Projekt</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="91"/>
+        <location filename="../kadas_gpkg_import.py" line="96"/>
         <source>GPKG Import Completed</source>
         <translation>GPKG Import erfolgreich abgeschlossen</translation>
     </message>
