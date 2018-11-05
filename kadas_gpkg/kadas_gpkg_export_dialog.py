@@ -94,7 +94,8 @@ class KadasGpkgExportDialog(QDialog):
             layerid = item.data(KadasGpkgExportDialog.LayerIdRole)
             layer = reg.mapLayer(layerid)
             # Disable layers already in GPKG
-            if layer.source().startswith(self.outputGpkg) and not self.clearOutputFile():
+            gpkgLayer = layer.source().startswith(self.outputGpkg) or layer.source().startswith("GPKG:" + self.outputGpkg)
+            if gpkgLayer and not self.clearOutputFile():
                 item.setFlags(item.flags() & ~(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
                 item.setIcon(QIcon(":/images/themes/default/mIconSuccess.png"))
             else:
