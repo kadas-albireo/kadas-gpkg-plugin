@@ -127,6 +127,7 @@ class KadasGpkgExport(QObject):
                 #new_gpkg_layers.append(layerid)
 
         if canceled:
+            pdialog.hide()
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
             conn.rollback()
             return
@@ -208,6 +209,7 @@ class KadasGpkgExport(QObject):
 
         shutil.rmtree(tmpdir)
 
+        pdialog.hide()
         self.iface.messageBar().pushMessage( self.tr( "GPKG Export Completed" ), "", QgsMessageBar.INFO, 5 )
 
         if messages:
