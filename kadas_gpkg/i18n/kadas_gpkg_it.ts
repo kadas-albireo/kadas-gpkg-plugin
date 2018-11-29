@@ -47,20 +47,25 @@
 <context>
     <name>KadasGpkg</name>
     <message>
-        <location filename="../kadas_gpkg.py" line="35"/>
+        <location filename="../kadas_gpkg.py" line="38"/>
         <source>Export GPKG</source>
         <translation>Esporta GPKG</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg.py" line="39"/>
+        <location filename="../kadas_gpkg.py" line="42"/>
         <source>Import GPKG</source>
         <translation>Importa GPKG</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg.py" line="46"/>
+        <source>GPKG</source>
+        <translation>GPKG</translation>
     </message>
 </context>
 <context>
     <name>KadasGpkgExport</name>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="191"/>
+        <location filename="../kadas_gpkg_export.py" line="206"/>
         <source>Error</source>
         <translation>Errore</translation>
     </message>
@@ -70,22 +75,22 @@
         <translation type="obsolete">Impossibile aprire %s</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="72"/>
+        <location filename="../kadas_gpkg_export.py" line="85"/>
         <source>Write failed</source>
         <translation>Impossibile scrivere il file</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="77"/>
+        <location filename="../kadas_gpkg_export.py" line="52"/>
         <source>Writing %s...</source>
         <translation>Scrivendo %s...</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="77"/>
+        <location filename="../kadas_gpkg_export.py" line="52"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="200"/>
+        <location filename="../kadas_gpkg_export.py" line="216"/>
         <source>GPKG Export</source>
         <translation>Esportazione GPKG</translation>
     </message>
@@ -95,39 +100,39 @@
         <translation type="obsolete">Imposibile scrivere. Verificare che il GeoPackage non contenga già una tabella con lo stesso nome di un layer.</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="116"/>
+        <location filename="../kadas_gpkg_export.py" line="131"/>
         <source>The operation was canceled.</source>
         <translation>L&apos;exportazione è stata annullata.</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="132"/>
+        <location filename="../kadas_gpkg_export.py" line="147"/>
         <source>Invalid project</source>
         <translation>Progetto non valido</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="197"/>
+        <location filename="../kadas_gpkg_export.py" line="213"/>
         <source>GPKG Export Completed</source>
         <translation>Esportazione GPKG terminata con successo</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="98"/>
+        <location filename="../kadas_gpkg_export.py" line="112"/>
         <source>Write failed. Does the GeoPackage already contain a table with the same name as an exported layer?</source>
         <translation>Imposibile scrivere. Verificare che il GeoPackage non contenga già una tabella con lo stesso nome di un layer esportato.</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="200"/>
+        <location filename="../kadas_gpkg_export.py" line="216"/>
         <source>The following layers were not exported to the GeoPackage:
 - %s</source>
         <translation>I layer seguenti non sono stati scritti nel GeoPackage:
 - %s</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="48"/>
+        <location filename="../kadas_gpkg_export.py" line="49"/>
         <source>Unable to create or open output file</source>
         <translation>Impossibile creare or aprire il file di output</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export.py" line="191"/>
+        <location filename="../kadas_gpkg_export.py" line="206"/>
         <source>Unable to create output file</source>
         <translation>Impossibile creare il file di output</translation>
     </message>

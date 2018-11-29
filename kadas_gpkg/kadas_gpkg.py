@@ -32,13 +32,18 @@ class KadasGpkg(QObject):
 
 
     def initGui(self):
-        self.exportAction = QAction(QIcon(":/plugins/KADASGpkg/icons/gpkg_export.png"), self.tr("Export GPKG"))
-        self.exportAction.triggered.connect(self.__exportGpkg)
-        self.iface.addAction(self.exportAction, self.iface.PLUGIN_MENU, self.iface.NO_TOOLBAR, self.iface.MAPS_TAB)
 
-        self.importAction = QAction(QIcon(":/plugins/KADASGpkg/icons/gpkg_import.png"), self.tr("Import GPKG"))
+        self.menu = QMenu()
+
+        self.exportAction = QAction(self.tr("Export GPKG"))
+        self.exportAction.triggered.connect(self.__exportGpkg)
+        self.menu.addAction(self.exportAction)
+
+        self.importAction = QAction(self.tr("Import GPKG"))
         self.importAction.triggered.connect(self.__importGpkg)
-        self.iface.addAction(self.importAction, self.iface.PLUGIN_MENU, self.iface.NO_TOOLBAR, self.iface.MAPS_TAB)
+        self.menu.addAction(self.importAction)
+
+        self.iface.addActionMenu(self.tr("GPKG"), QIcon(":/plugins/KADASGpkg/icons/gpkg.png"), self.menu, self.iface.PLUGIN_MENU, self.iface.NO_TOOLBAR, self.iface.MAPS_TAB)
 
     def unload(self):
         pass
