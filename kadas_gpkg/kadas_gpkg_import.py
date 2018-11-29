@@ -80,7 +80,8 @@ class KadasGpkgImport(QObject):
         ### Fixup layer paths
         for projectlayerEl in doc.find("projectlayers"):
             datasource = projectlayerEl.find("datasource")
-            datasource.text = datasource.text.replace("@gpkg_file@", gpkg_filename)
+            if datasource and datasource.text:
+                datasource.text = datasource.text.replace("@gpkg_file@", gpkg_filename)
 
         ### Write project
         xml = ET.tostring(doc)
