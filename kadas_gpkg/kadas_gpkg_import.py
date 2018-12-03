@@ -78,10 +78,13 @@ class KadasGpkgImport(QObject):
                 annotation.set('file', tmppath)
 
         ### Fixup layer paths
-        for projectlayerEl in doc.find("projectlayers"):
-            datasource = projectlayerEl.find("datasource")
-            if datasource and datasource.text:
+        for maplayerEl in doc.find("projectlayers").findall("maplayer"):
+            datasource = maplayerEl.find("datasource")
+            try:
                 datasource.text = datasource.text.replace("@gpkg_file@", gpkg_filename)
+            except:
+                pass
+
 
         ### Write project
         xml = ET.tostring(doc)
