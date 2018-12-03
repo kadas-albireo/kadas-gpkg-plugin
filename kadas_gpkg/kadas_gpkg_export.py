@@ -158,7 +158,7 @@ class KadasGpkgExport(QObject):
                     datasource.text = "@gpkg_file@|layername=" + layer.name()
                     projectlayerEl.find("provider").text = "ogr"
                 elif local_layers[layerId] == QgsMapLayer.RasterLayer:
-                    datasource.text = "GPKG:@gpkg_file@:" + layer.name()
+                    datasource.text = "GPKG:@gpkg_file@:" + os.path.splitext(os.path.basename(layer.source()))[0]
                     projectlayerEl.find("provider").text = "gdal"
             elif datasource.text and (datasource.text.startswith(gpkg_filename) or datasource.text.startswith("GPKG:" + gpkg_filename)):
                 datasource.text = datasource.text.replace(gpkg_filename, "@gpkg_file@")
