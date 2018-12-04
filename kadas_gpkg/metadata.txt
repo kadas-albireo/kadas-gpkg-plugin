@@ -4,12 +4,15 @@ qgisMinimumVersion=2.0
 qgisMaximumVersion=2.99
 description=KADAS GPKG plugin
 about=KADAS GPKG plugin.
-version=0.3.3
+version=0.3.4
 author=Sourcepole
 email=smani@sourcepole.ch
 
 
 changelog=
+ Rev 0.3.4 (04.12.2018)
+  - Add shortcuts
+
  Rev 0.3.3 (29.11.2018)
   - Group gpkg actions in menu button
 
