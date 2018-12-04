@@ -35,10 +35,14 @@ class KadasGpkg(QObject):
 
         self.menu = QMenu()
 
+        self.exportShortcut = QShortcut(QKeySequence(Qt.CTRL + Qt.Key_E, Qt.CTRL + Qt.Key_G), self.iface.mainWindow())
+        self.exportShortcut.activated.connect(self.__exportGpkg)
         self.exportAction = QAction(self.tr("Export GPKG"))
         self.exportAction.triggered.connect(self.__exportGpkg)
         self.menu.addAction(self.exportAction)
 
+        self.importShortcut = QShortcut(QKeySequence(Qt.CTRL + Qt.Key_I, Qt.CTRL + Qt.Key_G), self.iface.mainWindow())
+        self.importShortcut.activated.connect(self.__importGpkg)
         self.importAction = QAction(self.tr("Import GPKG"))
         self.importAction.triggered.connect(self.__importGpkg)
         self.menu.addAction(self.importAction)
