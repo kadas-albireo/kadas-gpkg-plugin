@@ -77,6 +77,13 @@ class KadasGpkgImport(QObject):
                 tmppath = self.extract_resource(cursor, tmpdir, img)
                 annotation.set('file', tmppath)
 
+        ### SVG annotation items
+        for annotation in doc.findall("SVGAnnotationItem"):
+            img = annotation.attrib['file']
+            if img.startswith("@qgis_resources@"):
+                tmppath = self.extract_resource(cursor, tmpdir, img)
+                annotation.set('file', tmppath)
+
         ### Fixup layer paths
         for maplayerEl in doc.find("projectlayers").findall("maplayer"):
             datasource = maplayerEl.find("datasource")

@@ -184,6 +184,14 @@ class KadasGpkgExport(QObject):
                 images[gpkg_path] = self.ensure_absolute(tmpdir, img)
                 annotation.set('file', gpkg_path)
 
+        # SVG annotation items
+        for annotation in doc.findall("SVGAnnotationItem"):
+            img = annotation.attrib['file']
+            if not img.startswith(":"):
+                gpkg_path = '@qgis_resources@/%s' % os.path.basename(img)
+                images[gpkg_path] = self.ensure_absolute(tmpdir, img)
+                annotation.set('file', gpkg_path)
+
         # Add images to GPKG
         for gpkg_path, abspath in images.iteritems():
             self.add_resource(cursor, gpkg_path, abspath)
