@@ -14,7 +14,6 @@ import sqlite3
 import shutil
 import subprocess
 import sys
-import tempfile
 from xml.etree import ElementTree as ET
 
 from kadas_gpkg_export_dialog import KadasGpkgExportDialog
@@ -33,14 +32,14 @@ class KadasGpkgExport(QObject):
 
 
         # Write project to temporary file
-        tmpdir = tempfile.mkdtemp()
+        tmpdir = QTemporaryDir()
 
         gpkg_filename = dialog.getOutputFile()
         local_layers = dialog.getSelectedLayers()
         gpkg_writefile = gpkg_filename
 
         if dialog.clearOutputFile():
-            gpkg_writefile = os.path.join(tmpdir, os.path.basename(gpkg_filename))
+            gpkg_writefile = tmpdir.filePath(os.path.basename(gpkg_filename))
 
         # Open database
         try:
@@ -135,7 +134,7 @@ class KadasGpkgExport(QObject):
         project = QgsProject.instance()
         prev_filename = project.fileName()
         prev_dirty = project.isDirty()
-        tmpfile = os.path.join(tmpdir, "qgpkg.qgs")
+        tmpfile = tmpdir.filePath("qgpkg.qgs")
         project.setFileName(tmpfile)
         project.write()
         project.setFileName(prev_filename if prev_filename else None)
@@ -212,10 +211,7 @@ class KadasGpkgExport(QObject):
                 shutil.move(gpkg_writefile, gpkg_filename)
             except:
                 QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Unable to create output file"))
-                shutil.rmtree(tmpdir)
                 return
-
-        shutil.rmtree(tmpdir)
 
         pdialog.hide()
         self.iface.messageBar().pushMessage( self.tr( "GPKG Export Completed" ), "", QgsMessageBar.INFO, 5 )
@@ -303,8 +299,8 @@ class KadasGpkgExport(QObject):
             else:
                 cursor.execute('UPDATE qgis_resources SET mime_type=?, content=? WHERE name=?', (gpkg_path, mime_type, sqlite3.Binary(blob)))
 
-    def ensure_absolute(self, base, path):
+    def ensure_absolute(self, tempdir, path):
         if not os.path.isabs(path):
-            return os.path.normpath(os.path.join(base, path))
+            return os.path.normpath(tempdir.filePath(path))
         else:
             return path
