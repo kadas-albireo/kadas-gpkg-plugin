@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 
 from qgis.core import *
 from qgis.gui import *
@@ -57,34 +58,35 @@ class KadasGpkgImport(QObject):
             QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("No valid project was found in %s") % gpkg_filename)
             return
 
-        ### Create temporary folder
+        # Create temporary folder
         tmpdir = tempfile.mkdtemp()
 
-        ### Extract project resources
-        ### Composer images
-        for composer in doc.findall("Composer"):
-            for composition in composer:
-                for composer_picture in composition.findall("ComposerPicture"):
-                    img = composer_picture.attrib['file']
-                    if img.startswith("@qgis_resources@"):
-                        tmppath = self.extract_resource(cursor, tmpdir, img)
-                        composer_picture.set('file', tmppath)
+        # Extract project resources
+        # Composer images
+        for layout in doc.findall("Layouts"):
+            for printLayout in layout:
+                for printLayout_picture in printLayout.findall("LayoutItem"):
+                    if printLayout_picture.attrib["type"] == "65640":
+                        img = printLayout_picture.attrib['file']
+                        if img and img.startswith("@qgis_resources@"):
+                            tmppath = self.extract_resource(cursor, tmpdir, img)
+                            printLayout_picture.set('file', tmppath)
 
-        ### Image annotation items
+        # Image annotation items
         for annotation in doc.findall("GeoImageAnnotationItem"):
             img = annotation.attrib['file']
             if img.startswith("@qgis_resources@"):
                 tmppath = self.extract_resource(cursor, tmpdir, img)
                 annotation.set('file', tmppath)
 
-        ### SVG annotation items
+        # SVG annotation items
         for annotation in doc.findall("SVGAnnotationItem"):
             img = annotation.attrib['file']
             if img.startswith("@qgis_resources@"):
                 tmppath = self.extract_resource(cursor, tmpdir, img)
                 annotation.set('file', tmppath)
 
-        ### Fixup layer paths
+        # Fixup layer paths
         for maplayerEl in doc.find("projectlayers").findall("maplayer"):
             datasource = maplayerEl.find("datasource")
             try:
@@ -92,11 +94,10 @@ class KadasGpkgImport(QObject):
             except:
                 pass
 
-
-        ### Write project
+        # Write project
         xml = ET.tostring(doc)
         output = os.path.join(tmpdir, self.tr("Imported GPKG Project") + ".qgs")
-        with open(output, "w") as fh:
+        with open(output, "wb") as fh:
             fh.write(xml)
 
         # Set project
@@ -104,7 +105,8 @@ class KadasGpkgImport(QObject):
         QgsProject.instance().setFileName(None)
         QgsProject.instance().setDirty(True)
 
-        self.iface.messageBar().pushMessage( self.tr( "GPKG Import Completed" ), "", QgsMessageBar.INFO, 5 );
+        self.iface.messageBar().pushMessage(
+            self.tr("GPKG Import Completed"), "", Qgis.Info, 5)
 
     def read_project(self, cursor):
         """ Read qgis project """

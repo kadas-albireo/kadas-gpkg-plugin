@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 
 from qgis.core import *
 from qgis.gui import *
@@ -16,7 +17,7 @@ import subprocess
 import sys
 from xml.etree import ElementTree as ET
 
-from kadas_gpkg_export_dialog import KadasGpkgExportDialog
+from .kadas_gpkg_export_dialog import KadasGpkgExportDialog
 
 
 class KadasGpkgExport(QObject):
@@ -29,7 +30,6 @@ class KadasGpkgExport(QObject):
         dialog = KadasGpkgExportDialog(self.find_local_layers(), self.iface.mainWindow())
         if dialog.exec_() != QDialog.Accepted:
             return
-
 
         # Write project to temporary file
         tmpdir = QTemporaryDir()
@@ -45,10 +45,14 @@ class KadasGpkgExport(QObject):
         try:
             conn = sqlite3.connect(gpkg_writefile)
         except:
-            QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Unable to create or open output file"))
+            QMessageBox.warning(
+                self.iface.mainWindow(), self.tr("Error"),
+                self.tr("Unable to create or open output file"))
             return
 
-        pdialog = QProgressDialog(self.tr("Writing %s...") % os.path.basename(gpkg_filename), self.tr("Cancel"), 0, 0,  self.iface.mainWindow())
+        pdialog = QProgressDialog(
+            self.tr("Writing %s...") % os.path.basename(gpkg_filename),
+            self.tr("Cancel"), 0, 0,  self.iface.mainWindow())
         pdialog.setWindowModality(Qt.WindowModal)
         pdialog.setWindowTitle(self.tr("GPKG Export"))
         pdialog.show()
@@ -64,21 +68,21 @@ class KadasGpkgExport(QObject):
         canceled = False
         messages = []
         for layerid in local_layers:
-
             QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
             if pdialog.wasCanceled():
                 canceled = True
                 break
 
-            layer = QgsMapLayerRegistry.instance().mapLayer(layerid)
+            layer = QgsProject.instance().mapLayer(layerid)
             if layer.type() == QgsMapLayer.VectorLayer:
                 saveOptions = QgsVectorFileWriter.SaveVectorOptions()
                 saveOptions.driverName = 'GPKG'
                 saveOptions.layerName = layer.name()
                 saveOptions.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
                 saveOptions.fileEncoding = 'utf-8'
-                ret = QgsVectorFileWriter.writeAsVectorFormat(layer, gpkg_writefile, saveOptions)
-                if ret == 0:
+                ret = QgsVectorFileWriter.writeAsVectorFormat(
+                    layer, gpkg_writefile, saveOptions)
+                if ret[0] == 0:
                     new_gpkg_layers.append(layerid)
                 else:
                     messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
@@ -124,7 +128,6 @@ class KadasGpkgExport(QObject):
 
                 #writer.writeRaster(pipe, provider.xSize(), provider.ySize(), provider.extent(), provider.crs())
                 #new_gpkg_layers.append(layerid)
-
         if canceled:
             pdialog.hide()
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
@@ -152,7 +155,7 @@ class KadasGpkgExport(QObject):
             layerId = projectlayerEl.find("id").text
             datasource = projectlayerEl.find("datasource")
             if layerId in new_gpkg_layers:
-                layer = QgsMapLayerRegistry.instance().mapLayer(layerId)
+                layer = QgsProject.instance().mapLayer(layerId)
                 if local_layers[layerId] == QgsMapLayer.VectorLayer:
                     datasource.text = "@gpkg_file@|layername=" + layer.name()
                     projectlayerEl.find("provider").text = "ogr"
@@ -161,19 +164,18 @@ class KadasGpkgExport(QObject):
                     projectlayerEl.find("provider").text = "gdal"
             elif datasource.text and (datasource.text.startswith(gpkg_filename) or datasource.text.startswith("GPKG:" + gpkg_filename)):
                 datasource.text = datasource.text.replace(gpkg_filename, "@gpkg_file@")
-
-
-        ### Search for referenced images in project file and add them to the GPKG
+        # Search for referenced images in project file and add them to the GPKG
         images = {}
         # Composer images
-        for composer in doc.findall("Composer"):
-            for composition in composer:
-                for composer_picture in composition.findall("ComposerPicture"):
-                    img = composer_picture.attrib['file']
-                    if not img.startswith(":"):
-                        gpkg_path = '@qgis_resources@/%s' % os.path.basename(img)
-                        images[gpkg_path] = self.ensure_absolute(tmpdir, img)
-                        composer_picture.set('file', gpkg_path)
+        for layout in doc.findall("Layouts"):
+            for printLayout in layout:
+                for printLayout_picture in printLayout.findall("LayoutItem"):
+                    if printLayout_picture.attrib["type"] == "65640":
+                        img = printLayout_picture.attrib['file']
+                        if img and not img.startswith(":"):
+                            gpkg_path = '@qgis_resources@/%s' % os.path.basename(img)
+                            images[gpkg_path] = self.ensure_absolute(tmpdir, img)
+                            printLayout_picture.set('file', gpkg_path)
 
         # Image annotation items
         for annotation in doc.findall("GeoImageAnnotationItem"):
@@ -192,7 +194,7 @@ class KadasGpkgExport(QObject):
                 annotation.set('file', gpkg_path)
 
         # Add images to GPKG
-        for gpkg_path, abspath in images.iteritems():
+        for gpkg_path, abspath in images:
             self.add_resource(cursor, gpkg_path, abspath)
 
         # Write project file to GPKG
@@ -214,17 +216,23 @@ class KadasGpkgExport(QObject):
                 return
 
         pdialog.hide()
-        self.iface.messageBar().pushMessage( self.tr( "GPKG Export Completed" ), "", QgsMessageBar.INFO, 5 )
+        self.iface.messageBar().pushMessage(
+            self.tr("GPKG Export Completed"), "",
+            Qgis.Info, 5)
 
         if messages:
-            QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The following layers were not exported to the GeoPackage:\n- %s") % "\n- ".join(messages))
+            QMessageBox.warning(
+                self.iface.mainWindow(),
+                self.tr("GPKG Export"),
+                self.tr("The following layers were not exported to"
+                        " the GeoPackage:\n- %s") % "\n- ".join(messages))
 
     def find_local_layers(self):
         local_layers = {}
         local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr",
-        "postgres", "spatialite"]
+                           "postgres", "spatialite"]
 
-        for layerid, layer in QgsMapLayerRegistry.instance().mapLayers().iteritems():
+        for layer in QgsProject.instance().mapLayers().values():
             provider = "unknown"
             if layer.type() == QgsMapLayer.VectorLayer or layer.type() == QgsMapLayer.RasterLayer:
                 provider = layer.dataProvider().name()

@@ -1,11 +1,12 @@
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 import os
 import re
 
 from qgis.core import *
 
-from ui_kadas_gpkg_export_dialog import Ui_GPKGExportDialog
+from .ui_kadas_gpkg_export_dialog import Ui_GPKGExportDialog
 
 
 class KadasGpkgExportDialog(QDialog):
@@ -27,11 +28,9 @@ class KadasGpkgExportDialog(QDialog):
         self.ui.checkBoxClear.toggled.connect(self.__updateLayerList)
 
         # Populate layer selection list
-        reg = QgsMapLayerRegistry.instance()
-        sortedIds = self.layers.keys()
-        sortedIds.sort(key=lambda layerId: self.__getLayerName(reg, layerId).lower())
-        for layerid in sortedIds:
-            layer = reg.mapLayer(layerid)
+        qgsProject = QgsProject.instance()
+        for layerid in sorted(self.layers.keys()):
+            layer = qgsProject.mapLayer(layerid)
             if not layer:
                 continue
             filename = layer.source()
@@ -88,11 +87,11 @@ class KadasGpkgExportDialog(QDialog):
 
     def __updateLayerList(self):
         # Update layer list
-        reg = QgsMapLayerRegistry.instance()
+        qgsProject = QgsProject.instance()
         for i in range(0, self.ui.listWidgetLayers.count()):
             item = self.ui.listWidgetLayers.item(i)
             layerid = item.data(KadasGpkgExportDialog.LayerIdRole)
-            layer = reg.mapLayer(layerid)
+            layer = qgsProject.mapLayer(layerid)
             # Disable layers already in GPKG
             gpkgLayer = self.outputGpkg and (layer.source().startswith(self.outputGpkg) or layer.source().startswith("GPKG:" + self.outputGpkg))
             if gpkgLayer and not self.clearOutputFile():

@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 import os
 import sys
 
-import resources
-from kadas_gpkg_export import KadasGpkgExport
-from kadas_gpkg_import import KadasGpkgImport
+from . import resources
+from .kadas_gpkg_export import KadasGpkgExport
+from .kadas_gpkg_import import KadasGpkgImport
+from kadas.kadasgui import *
 
 
 class KadasGpkg(QObject):
@@ -15,7 +17,7 @@ class KadasGpkg(QObject):
     def __init__(self, iface):
         QObject.__init__(self)
 
-        self.iface = iface
+        self.iface = KadasPluginInterface.cast(iface)
         self.offlineService = None
 
         # initialize locale
@@ -29,7 +31,6 @@ class KadasGpkg(QObject):
             self.translator = QTranslator()
             self.translator.load(locale_path)
             QCoreApplication.installTranslator(self.translator)
-
 
     def initGui(self):
 
@@ -47,7 +48,13 @@ class KadasGpkg(QObject):
         self.importAction.triggered.connect(self.__importGpkg)
         self.menu.addAction(self.importAction)
 
-        self.iface.addActionMenu(self.tr("GPKG"), QIcon(":/plugins/KADASGpkg/icons/gpkg.png"), self.menu, self.iface.PLUGIN_MENU, self.iface.NO_TOOLBAR, self.iface.MAPS_TAB)
+        self.iface.addActionMenu(self.tr("GPKG"),
+                                 QIcon(":/plugins/KADASGpkg/icons/gpkg.png"),
+                                 self.menu,
+                                 self.iface.PLUGIN_MENU,
+                                 self.iface.MAPS_TAB)
+                                #  self.iface.CUSTOM_TAB,
+                                #  "&Plugins")
 
     def unload(self):
         pass
