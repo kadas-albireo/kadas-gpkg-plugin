@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'kadas_gpkg_export_dialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.2
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_GPKGExportDialog(object):
     def setupUi(self, GPKGExportDialog):
@@ -21,14 +23,14 @@ class Ui_GPKGExportDialog(object):
         self.labelWarnIcon = QtWidgets.QLabel(GPKGExportDialog)
         self.labelWarnIcon.setMinimumSize(QtCore.QSize(16, 16))
         self.labelWarnIcon.setMaximumSize(QtCore.QSize(16, 16))
-        self.labelWarnIcon.setPixmap(QtGui.QPixmap(":/images/themes/default/mIconWarn.png"))
+        self.labelWarnIcon.setPixmap(QtGui.QPixmap(":/images/themes/default/mIconWarning.svg"))
         self.labelWarnIcon.setScaledContents(True)
         self.labelWarnIcon.setObjectName("labelWarnIcon")
         self.gridLayout.addWidget(self.labelWarnIcon, 8, 0, 1, 1)
         self.labelCheckIcon = QtWidgets.QLabel(GPKGExportDialog)
         self.labelCheckIcon.setMinimumSize(QtCore.QSize(16, 16))
         self.labelCheckIcon.setMaximumSize(QtCore.QSize(2, 16))
-        self.labelCheckIcon.setPixmap(QtGui.QPixmap(":/images/themes/default/mIconSuccess.png"))
+        self.labelCheckIcon.setPixmap(QtGui.QPixmap(":/images/themes/default/mIconSuccess.svg"))
         self.labelCheckIcon.setScaledContents(True)
         self.labelCheckIcon.setObjectName("labelCheckIcon")
         self.gridLayout.addWidget(self.labelCheckIcon, 7, 0, 1, 1)

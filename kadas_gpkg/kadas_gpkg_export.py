@@ -7,15 +7,13 @@ from qgis.PyQt.QtWidgets import *
 from qgis.core import *
 from qgis.gui import *
 
-import logging
-import glob
 import os
+import re
 import mimetypes
 import sqlite3
 import shutil
-import subprocess
-import sys
-from xml.etree import ElementTree as ET
+import uuid
+from lxml import etree as ET
 
 from .kadas_gpkg_export_dialog import KadasGpkgExportDialog
 
@@ -35,7 +33,7 @@ class KadasGpkgExport(QObject):
         tmpdir = QTemporaryDir()
 
         gpkg_filename = dialog.getOutputFile()
-        local_layers = dialog.getSelectedLayers()
+        selected_layers = dialog.getSelectedLayers()
         gpkg_writefile = gpkg_filename
 
         if dialog.clearOutputFile():
@@ -45,9 +43,7 @@ class KadasGpkgExport(QObject):
         try:
             conn = sqlite3.connect(gpkg_writefile)
         except:
-            QMessageBox.warning(
-                self.iface.mainWindow(), self.tr("Error"),
-                self.tr("Unable to create or open output file"))
+            QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Unable to create or open output file"))
             return
 
         pdialog = QProgressDialog(
@@ -59,75 +55,63 @@ class KadasGpkgExport(QObject):
 
         cursor = conn.cursor()
         self.init_gpkg(cursor)
+        conn.commit()
+        conn.close()
         QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
 
-        # Look for local layers which are not already in the GPKG
-        new_gpkg_layers = []
+        # Collect layer sources
+        layer_sources = []
+        for layerId, layer in QgsProject.instance().mapLayers().items():
+            layer_sources.append(layer.source())
 
-        # Copy all local layers to the database
+        # Copy all selected local layers to the database
+        added_layer_ids = []
+        added_layers_by_source = {}
         canceled = False
         messages = []
-        for layerid in local_layers:
+        for layerid in selected_layers:
             QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
             if pdialog.wasCanceled():
                 canceled = True
                 break
 
             layer = QgsProject.instance().mapLayer(layerid)
+
+            if layer.source() in added_layers_by_source:
+                # Don't add the same layer twice
+                continue
+
             if layer.type() == QgsMapLayer.VectorLayer:
                 saveOptions = QgsVectorFileWriter.SaveVectorOptions()
                 saveOptions.driverName = 'GPKG'
-                saveOptions.layerName = layer.name()
+                saveOptions.layerName = self.safe_name(layer.name())
                 saveOptions.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
                 saveOptions.fileEncoding = 'utf-8'
                 ret = QgsVectorFileWriter.writeAsVectorFormat(
                     layer, gpkg_writefile, saveOptions)
                 if ret[0] == 0:
-                    new_gpkg_layers.append(layerid)
+                    added_layer_ids.append(layerid)
+                    added_layers_by_source[layer.source()] = layerid
                 else:
-                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed")))
+                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed: error %d (%s)") % (ret[0], ret[1])))
             elif layer.type() == QgsMapLayer.RasterLayer:
-                filename = layer.source()
-                cmd = ["gdal_translate", "-of", "GPKG", "-co", "APPEND_SUBDATASET=YES", filename, gpkg_writefile]
-                creationFlags = 0
-                if sys.platform == 'win32':
-                    creationFlags = 0x08000000  # CREATE_NO_WINDOW
-                process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, creationflags=creationFlags)
-                timer = QTimer()
-                timer.setSingleShot(True)
-                # Poll every 100ms until done
-                while process.returncode is None:
-                    process.poll()
-                    loop = QEventLoop()
-                    timer.timeout.connect(loop.quit)
-                    timer.start(100)
-                    loop.exec_()
-                    QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
-                    if pdialog.wasCanceled():
-                        canceled = True
-                        break
-                if canceled:
-                    process.kill()
-                    break
-                elif process.returncode == 0:
-                    new_gpkg_layers.append(layerid)
+                provider = layer.dataProvider()
+                writer = QgsRasterFileWriter(gpkg_writefile)
+                writer.setOutputFormat('gpkg')
+                writer.setCreateOptions(['RASTER_TABLE=%s' % self.safe_name(layer.name()), 'APPEND_SUBDATASET=YES'])
+                pipe = QgsRasterPipe()
+                pipe.set(provider.clone())
+
+                projector = QgsRasterProjector()
+                projector.setCrs(provider.crs(), provider.crs())
+                pipe.insert(2, projector)
+
+                ret = writer.writeRaster(pipe, provider.xSize(), provider.ySize(), provider.extent(), provider.crs())
+                if ret == 0:
+                    added_layer_ids.append(layerid)
+                    added_layers_by_source[layer.source()] = layerid
                 else:
-                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed. Does the GeoPackage already contain a table with the same name as an exported layer?")))
-                pdialog.reset()
-                # FIXME: Use QgsRasterFileWriter
-                #provider = layer.dataProvider()
-                #writer = QgsRasterFileWriter(gpkg_writefile)
-                #writer.setOutputFormat('gpkg')
-                #writer.setCreateOptions(['RASTER_TABLE=%s' % layer.name(), 'APPEND_SUBDATASET=YES'])
-                #pipe = QgsRasterPipe()
-                #pipe.set(provider.clone())
-
-                #projector = QgsRasterProjector()
-                #projector.setCRS(provider.crs(), provider.crs())
-                #pipe.insert(2, projector)
-
-                #writer.writeRaster(pipe, provider.xSize(), provider.ySize(), provider.extent(), provider.crs())
-                #new_gpkg_layers.append(layerid)
+                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed: error %d") % ret))
         if canceled:
             pdialog.hide()
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
@@ -137,65 +121,38 @@ class KadasGpkgExport(QObject):
         project = QgsProject.instance()
         prev_filename = project.fileName()
         prev_dirty = project.isDirty()
-        tmpfile = tmpdir.filePath("qgpkg.qgs")
+        tmpfile = tmpdir.filePath("gpkg_project.qgs")
         project.setFileName(tmpfile)
+        additional_resources = {}
+        preprocessorId = QgsPathResolver.setPathWriter(lambda path: self.rewriteProjectPaths(path, gpkg_filename, added_layers_by_source, layer_sources, additional_resources))
         project.write()
+        QgsPathResolver.removePathWriter(preprocessorId)
         project.setFileName(prev_filename if prev_filename else None)
         project.setDirty(prev_dirty)
 
         # Parse project and replace data sources if necessary
-        doc = ET.parse(tmpfile)
+        parser = ET.XMLParser(strip_cdata=False)
+        doc = ET.parse(tmpfile, parser=parser)
         if not doc:
             QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("Invalid project"))
             return
 
-        # Replace layer sources in project file if neccessary
+        # Replace layer provider types in project file
         sources = []
         for projectlayerEl in doc.find("projectlayers"):
             layerId = projectlayerEl.find("id").text
-            datasource = projectlayerEl.find("datasource")
-            if layerId in new_gpkg_layers:
+            if layerId in added_layer_ids:
                 layer = QgsProject.instance().mapLayer(layerId)
-                if local_layers[layerId] == QgsMapLayer.VectorLayer:
-                    datasource.text = "@gpkg_file@|layername=" + layer.name()
+                if layer.type() == QgsMapLayer.VectorLayer:
                     projectlayerEl.find("provider").text = "ogr"
-                elif local_layers[layerId] == QgsMapLayer.RasterLayer:
-                    datasource.text = "GPKG:@gpkg_file@:" + os.path.splitext(os.path.basename(layer.source()))[0]
+                elif layer.type() == QgsMapLayer.RasterLayer:
                     projectlayerEl.find("provider").text = "gdal"
-            elif datasource.text and (datasource.text.startswith(gpkg_filename) or datasource.text.startswith("GPKG:" + gpkg_filename)):
-                datasource.text = datasource.text.replace(gpkg_filename, "@gpkg_file@")
-        # Search for referenced images in project file and add them to the GPKG
-        images = {}
-        # Composer images
-        for layout in doc.findall("Layouts"):
-            for printLayout in layout:
-                for printLayout_picture in printLayout.findall("LayoutItem"):
-                    if printLayout_picture.attrib["type"] == "65640":
-                        img = printLayout_picture.attrib['file']
-                        if img and not img.startswith(":"):
-                            gpkg_path = '@qgis_resources@/%s' % os.path.basename(img)
-                            images[gpkg_path] = self.ensure_absolute(tmpdir, img)
-                            printLayout_picture.set('file', gpkg_path)
 
-        # Image annotation items
-        for annotation in doc.findall("GeoImageAnnotationItem"):
-            img = annotation.attrib['file']
-            if not img.startswith(":"):
-                gpkg_path = '@qgis_resources@/%s' % os.path.basename(img)
-                images[gpkg_path] = self.ensure_absolute(tmpdir, img)
-                annotation.set('file', gpkg_path)
-
-        # SVG annotation items
-        for annotation in doc.findall("SVGAnnotationItem"):
-            img = annotation.attrib['file']
-            if not img.startswith(":"):
-                gpkg_path = '@qgis_resources@/%s' % os.path.basename(img)
-                images[gpkg_path] = self.ensure_absolute(tmpdir, img)
-                annotation.set('file', gpkg_path)
-
-        # Add images to GPKG
-        for gpkg_path, abspath in images:
-            self.add_resource(cursor, gpkg_path, abspath)
+        # Add additional resources
+        conn = sqlite3.connect(gpkg_writefile)
+        cursor = conn.cursor()
+        for path, resource_id in additional_resources.items():
+            self.add_resource(cursor, path, resource_id)
 
         # Write project file to GPKG
         project_xml = ET.tostring(doc.getroot())
@@ -217,20 +174,39 @@ class KadasGpkgExport(QObject):
 
         pdialog.hide()
         self.iface.messageBar().pushMessage(
-            self.tr("GPKG Export Completed"), "",
-            Qgis.Info, 5)
+            self.tr("GPKG Export Completed"), "", Qgis.Info, 5)
 
         if messages:
             QMessageBox.warning(
                 self.iface.mainWindow(),
                 self.tr("GPKG Export"),
-                self.tr("The following layers were not exported to"
-                        " the GeoPackage:\n- %s") % "\n- ".join(messages))
+                self.tr("The following layers were not exported to the GeoPackage:\n- %s") % "\n- ".join(messages))
+
+    def rewriteProjectPaths(self, path, gpkg_filename, added_layers_by_source, layer_sources, additional_resources):
+        if not path:
+            return path
+        if path in added_layers_by_source:
+            # Datasource newly added to GPKG: rewrite as GPKG path
+            layer = QgsProject.instance().mapLayer(added_layers_by_source[path])
+            if layer.type() == QgsMapLayer.VectorLayer:
+                return "@gpkg_file@|layername=" + self.safe_name(layer.name())
+            elif layer.type() == QgsMapLayer.RasterLayer:
+                return "GPKG:@gpkg_file@:" + self.safe_name(layer.name())
+        elif path and (path.startswith(gpkg_filename) or path.startswith("GPKG:" + gpkg_filename)):
+            # Previous GPKG sources: replace GPKG path with placeholder
+            return path.replace(gpkg_filename, "@gpkg_file@")
+        elif os.path.isfile(path) and not path in layer_sources:
+            # Other resource: Add it to resources,
+            if not path in additional_resources:
+                additional_resources[path] = str(uuid.uuid1()) + os.path.splitext(path)[1]
+            return "@qgis_resources@/%s" % additional_resources[path]
+        else:
+            # No action
+            return path
 
     def find_local_layers(self):
         local_layers = {}
-        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr",
-                           "postgres", "spatialite"]
+        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite"]
 
         for layer in QgsProject.instance().mapLayers().values():
             provider = "unknown"
@@ -239,7 +215,6 @@ class KadasGpkgExport(QObject):
             elif layer.type() == QgsMapLayer.PluginLayer:
                 provider = "plugin"
 
-            # Local layers which are not already saved in the gpkg databse
             if provider in local_providers:
                 local_layers[layer.id()] = layer.type()
 
@@ -256,6 +231,10 @@ class KadasGpkgExport(QObject):
                 definition  TEXT NOT NULL,
                 description TEXT
         )""")
+        # Add undefined spatial reference
+        cursor.execute('SELECT count(1) FROM gpkg_spatial_ref_sys WHERE srs_id=0')
+        if cursor.fetchone()[0] == 0:
+            cursor.execute('INSERT INTO gpkg_spatial_ref_sys VALUES (?,?,?,?,?,?)', ("Undefined geographic SRS", 0, "NONE", 0, "undefined", "undefined"))
 
         # Create gpkg_contents table
         cursor.execute("""CREATE TABLE IF NOT EXISTS gpkg_contents (
@@ -296,19 +275,16 @@ class KadasGpkgExport(QObject):
         else:
             cursor.execute('UPDATE qgis_projects SET xml=? WHERE name=?', (project_xml, project_name))
 
-    def add_resource(self, cursor, gpkg_path, abspath):
+    def add_resource(self, cursor, path, resource_id):
         """ Add a resource file to qgis_resources """
-        with open(abspath, 'rb') as fh:
+        with open(path, 'rb') as fh:
             blob = fh.read()
-            mime_type = mimetypes.MimeTypes().guess_type(abspath)[0]
-            cursor.execute('SELECT count(1) FROM qgis_resources WHERE name=?', (gpkg_path,))
+            mime_type = mimetypes.MimeTypes().guess_type(path)[0]
+            cursor.execute('SELECT count(1) FROM qgis_resources WHERE name=?', (resource_id,))
             if cursor.fetchone()[0] == 0:
-                cursor.execute('INSERT INTO qgis_resources VALUES(?, ?, ?)', (gpkg_path, mime_type, sqlite3.Binary(blob)))
+                cursor.execute('INSERT INTO qgis_resources VALUES(?, ?, ?)', (resource_id, mime_type, sqlite3.Binary(blob)))
             else:
-                cursor.execute('UPDATE qgis_resources SET mime_type=?, content=? WHERE name=?', (gpkg_path, mime_type, sqlite3.Binary(blob)))
+                cursor.execute('UPDATE qgis_resources SET mime_type=?, content=? WHERE name=?', (mime_type, sqlite3.Binary(blob), resource_id))
 
-    def ensure_absolute(self, tempdir, path):
-        if not os.path.isabs(path):
-            return os.path.normpath(tempdir.filePath(path))
-        else:
-            return path
+    def safe_name(self, name):
+        return re.sub(r"\W", "", name)

@@ -28,9 +28,8 @@ class KadasGpkgExportDialog(QDialog):
         self.ui.checkBoxClear.toggled.connect(self.__updateLayerList)
 
         # Populate layer selection list
-        qgsProject = QgsProject.instance()
         for layerid in sorted(self.layers.keys()):
-            layer = qgsProject.mapLayer(layerid)
+            layer = QgsProject.instance().mapLayer(layerid)
             if not layer:
                 continue
             filename = layer.source()
@@ -63,7 +62,7 @@ class KadasGpkgExportDialog(QDialog):
                 item.setIcon(QIcon())
             else:
                 item.setCheckState(Qt.Unchecked)
-                item.setIcon(QIcon(":/images/themes/default/mIconWarn.png"))
+                item.setIcon(QIcon(":/images/themes/default/mIconWarning.svg"))
 
             self.ui.listWidgetLayers.addItem(item)
 
@@ -78,6 +77,9 @@ class KadasGpkgExportDialog(QDialog):
         if not filename:
             return
 
+        if not filename.lower().endswith(".gpkg"):
+            filename += ".gpkg"
+
         QSettings().setValue("/UI/lastImportExportDir", os.path.dirname(filename))
         self.outputGpkg = filename
         self.ui.lineEditOutputFile.setText(self.outputGpkg)
@@ -87,23 +89,22 @@ class KadasGpkgExportDialog(QDialog):
 
     def __updateLayerList(self):
         # Update layer list
-        qgsProject = QgsProject.instance()
         for i in range(0, self.ui.listWidgetLayers.count()):
             item = self.ui.listWidgetLayers.item(i)
             layerid = item.data(KadasGpkgExportDialog.LayerIdRole)
-            layer = qgsProject.mapLayer(layerid)
+            layer = QgsProject.instance().mapLayer(layerid)
             # Disable layers already in GPKG
             gpkgLayer = self.outputGpkg and (layer.source().startswith(self.outputGpkg) or layer.source().startswith("GPKG:" + self.outputGpkg))
             if gpkgLayer and not self.clearOutputFile():
                 item.setFlags(item.flags() & ~(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
-                item.setIcon(QIcon(":/images/themes/default/mIconSuccess.png"))
+                item.setIcon(QIcon(":/images/themes/default/mIconSuccess.svg"))
             else:
                 size = int(item.data(KadasGpkgExportDialog.LayerSizeRole))
                 item.setFlags(item.flags() | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 if size < KadasGpkgExportDialog.WARN_SIZE:
                     item.setIcon(QIcon())
                 else:
-                    item.setIcon(QIcon(":/images/themes/default/mIconWarn.png"))
+                    item.setIcon(QIcon(":/images/themes/default/mIconWarning.svg"))
 
     def getOutputFile(self):
         return self.outputGpkg

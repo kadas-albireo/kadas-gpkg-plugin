@@ -21,16 +21,17 @@ class KadasGpkg(QObject):
         self.offlineService = None
 
         # initialize locale
-        self.locale = QSettings().value('locale/userLocale')[0:2]
-        locale_path = os.path.join(
-            os.path.dirname(__file__),
-            'i18n',
-            'kadas_gpkg_{}.qm'.format(self.locale))
+        if QSettings().value('locale/userLocale'):
+            self.locale = QSettings().value('locale/userLocale')[0:2]
+            locale_path = os.path.join(
+                os.path.dirname(__file__),
+                'i18n',
+                'kadas_gpkg_{}.qm'.format(self.locale))
 
-        if os.path.exists(locale_path):
-            self.translator = QTranslator()
-            self.translator.load(locale_path)
-            QCoreApplication.installTranslator(self.translator)
+            if os.path.exists(locale_path):
+                self.translator = QTranslator()
+                self.translator.load(locale_path)
+                QCoreApplication.installTranslator(self.translator)
 
     def initGui(self):
 
@@ -53,11 +54,9 @@ class KadasGpkg(QObject):
                                  self.menu,
                                  self.iface.PLUGIN_MENU,
                                  self.iface.MAPS_TAB)
-                                #  self.iface.CUSTOM_TAB,
-                                #  "&Plugins")
 
     def unload(self):
-        pass
+        self.iface.removeActionMenu(self.menu, self.iface.PLUGIN_MENU, self.iface.MAPS_TAB)
 
     def __importGpkg(self):
         KadasGpkgImport(self.iface).run()

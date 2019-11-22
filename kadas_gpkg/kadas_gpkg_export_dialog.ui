@@ -39,7 +39,7 @@
       </size>
      </property>
      <property name="pixmap">
-      <pixmap>:/images/themes/default/mIconWarn.png</pixmap>
+      <pixmap resource="../../qgis-master/images/images.qrc">:/images/themes/default/mIconWarning.svg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -61,7 +61,7 @@
       </size>
      </property>
      <property name="pixmap">
-      <pixmap>:/images/themes/default/mIconSuccess.png</pixmap>
+      <pixmap resource="../../qgis-master/images/images.qrc">:/images/themes/default/mIconSuccess.svg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -155,7 +155,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../qgis-master/images/images.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

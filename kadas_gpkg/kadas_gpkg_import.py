@@ -14,7 +14,6 @@ import mimetypes
 import sqlite3
 import shutil
 import tempfile
-from xml.etree import ElementTree as ET
 
 
 class KadasGpkgImport(QObject):
@@ -50,60 +49,27 @@ class KadasGpkgImport(QObject):
 
         cursor = conn.cursor()
 
-        # Extract project and resources to temporary dir
-        xml = self.read_project(cursor)
-        try:
-            doc = ET.fromstring(xml)
-        except:
-            QMessageBox.warning(self.iface.mainWindow(), self.tr("Error"), self.tr("No valid project was found in %s") % gpkg_filename)
-            return
-
         # Create temporary folder
         tmpdir = tempfile.mkdtemp()
 
-        # Extract project resources
-        # Composer images
-        for layout in doc.findall("Layouts"):
-            for printLayout in layout:
-                for printLayout_picture in printLayout.findall("LayoutItem"):
-                    if printLayout_picture.attrib["type"] == "65640":
-                        img = printLayout_picture.attrib['file']
-                        if img and img.startswith("@qgis_resources@"):
-                            tmppath = self.extract_resource(cursor, tmpdir, img)
-                            printLayout_picture.set('file', tmppath)
-
-        # Image annotation items
-        for annotation in doc.findall("GeoImageAnnotationItem"):
-            img = annotation.attrib['file']
-            if img.startswith("@qgis_resources@"):
-                tmppath = self.extract_resource(cursor, tmpdir, img)
-                annotation.set('file', tmppath)
-
-        # SVG annotation items
-        for annotation in doc.findall("SVGAnnotationItem"):
-            img = annotation.attrib['file']
-            if img.startswith("@qgis_resources@"):
-                tmppath = self.extract_resource(cursor, tmpdir, img)
-                annotation.set('file', tmppath)
-
-        # Fixup layer paths
-        for maplayerEl in doc.find("projectlayers").findall("maplayer"):
-            datasource = maplayerEl.find("datasource")
-            try:
-                datasource.text = datasource.text.replace("@gpkg_file@", gpkg_filename)
-            except:
-                pass
-
-        # Write project
-        xml = ET.tostring(doc)
-        output = os.path.join(tmpdir, self.tr("Imported GPKG Project") + ".qgs")
+        # Write project to temporary dir
+        xml = self.read_project(cursor)
+        output = os.path.join(tmpdir, "gpkg_project.qgs")
         with open(output, "wb") as fh:
-            fh.write(xml)
+            if isinstance(xml, str):
+                fh.write(xml.encode('utf-8'))
+            else:
+                fh.write(xml)
 
-        # Set project
+        # Read project, adjust paths and extract resources as necessary
+        extracted_resources = {}
+        preprocessorId = QgsPathResolver.setPathPreprocessor(lambda path: self.readProjectPaths(path, cursor, gpkg_filename, tmpdir, extracted_resources))
+
         self.iface.addProject(output)
         QgsProject.instance().setFileName(None)
         QgsProject.instance().setDirty(True)
+
+        QgsPathResolver.removePathPreprocessor(preprocessorId)
 
         self.iface.messageBar().pushMessage(
             self.tr("GPKG Import Completed"), "", Qgis.Info, 5)
@@ -121,13 +87,26 @@ class KadasGpkgImport(QObject):
         else:
             return qgis_projects[0]
 
-    def extract_resource(self, cursor, outputdir, gpkg_path):
+    def readProjectPaths(self, path, cursor, gpkg_filename, tmpdir, extracted_resources):
+        if not path:
+            return path
+        path = path.replace("@gpkg_file@", gpkg_filename)
+        if path.startswith("@qgis_resources@"):
+            resource_id = path.replace("@qgis_resources@/", "")
+            if resource_id in extracted_resources:
+                path = extracted_resources[resource_id]
+            else:
+                path = self.extract_resource(cursor, tmpdir, resource_id)
+                extracted_resources[resource_id] = path
+        return path
+
+    def extract_resource(self, cursor, outputdir, resource_id):
         """ Extract a resource file from qgis_resources """
         try:
-            cursor.execute('SELECT content FROM qgis_resources WHERE name=?', (gpkg_path,))
+            cursor.execute('SELECT content FROM qgis_resources WHERE name=?', (resource_id,))
         except:
             return None
-        output = os.path.join(outputdir, os.path.basename(gpkg_path))
+        output = os.path.join(outputdir, resource_id)
         with open(output, 'wb') as fh:
             fh.write(cursor.fetchone()[0])
         return output
