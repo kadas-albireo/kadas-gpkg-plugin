@@ -22,7 +22,7 @@ class KadasGpkgImport(QObject):
         QObject.__init__(self)
         self.iface = iface
 
-    def run(self):
+    def run(self, gpkg_filename=None):
 
         if QgsProject.instance().isDirty():
             ret = QMessageBox.question(self.iface.mainWindow(), self.tr("Save project?"), self.tr("The project has unsaved changes. Do you want to save them before proceeding?"), QMessageBox.Yes|QMessageBox.No|QMessageBox.Cancel, QMessageBox.Cancel)
@@ -31,8 +31,9 @@ class KadasGpkgImport(QObject):
             elif ret == QMessageBox.Yes and not self.iface.fileSave():
                 return
 
-        lastDir = QSettings().value("/UI/lastImportExportDir", ".")
-        gpkg_filename = QFileDialog.getOpenFileName(self.iface.mainWindow(), self.tr("GPKG Import"), lastDir, self.tr("GPKG Database (*.gpkg)"))[0]
+        if not gpkg_filename:
+            lastDir = QSettings().value("/UI/lastImportExportDir", ".")
+            gpkg_filename = QFileDialog.getOpenFileName(self.iface.mainWindow(), self.tr("GPKG Import"), lastDir, self.tr("GPKG Database (*.gpkg)"))[0]
 
         if not gpkg_filename:
             return
@@ -72,7 +73,7 @@ class KadasGpkgImport(QObject):
         QgsPathResolver.removePathPreprocessor(preprocessorId)
 
         self.iface.messageBar().pushMessage(
-            self.tr("GPKG Import Completed"), "", Qgis.Info, 5)
+            self.tr("GPKG import completed"), "", Qgis.Info, 5)
 
     def read_project(self, cursor):
         """ Read qgis project """

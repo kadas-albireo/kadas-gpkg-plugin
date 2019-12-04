@@ -174,7 +174,7 @@ class KadasGpkgExport(QObject):
 
         pdialog.hide()
         self.iface.messageBar().pushMessage(
-            self.tr("GPKG Export Completed"), "", Qgis.Info, 5)
+            self.tr("GPKG export completed"), "", Qgis.Info, 5)
 
         if messages:
             QMessageBox.warning(
