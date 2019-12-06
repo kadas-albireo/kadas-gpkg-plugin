@@ -24,11 +24,12 @@ class KadasGpkgDropHandler(QgsCustomDropHandler):
                 return True
         return False
 
-    def handleMimeDataV2( self, mimedata ):
+    def handleMimeDataV2( self, mimedata):
         if len(mimedata.urls()) > 0:
             path = mimedata.urls()[0].toLocalFile()
-            KadasGpkgImport(self.iface).run(path)
-            return True
+            if path.lower().endswith(".gpkg"):
+                KadasGpkgImport(self.iface).run(path)
+                return True
         return False
 
 
