@@ -57,6 +57,7 @@ class KadasGpkgImport(QObject):
         xml = self.read_project(cursor)
         if not xml:
             self.iface.addVectorLayer(gpkg_filename, None, "ogr")
+            self.iface.addRasterLayer(gpkg_filename, None, "gdal")
         else:
             output = os.path.join(tmpdir, "gpkg_project.qgs")
             with open(output, "wb") as fh:
