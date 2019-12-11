@@ -55,22 +55,26 @@ class KadasGpkgImport(QObject):
 
         # Write project to temporary dir
         xml = self.read_project(cursor)
-        output = os.path.join(tmpdir, "gpkg_project.qgs")
-        with open(output, "wb") as fh:
-            if isinstance(xml, str):
-                fh.write(xml.encode('utf-8'))
-            else:
-                fh.write(xml)
+        if not xml:
+            self.iface.addVectorLayer(gpkg_filename, None, "ogr")
+        else:
+            output = os.path.join(tmpdir, "gpkg_project.qgs")
+            with open(output, "wb") as fh:
+                if isinstance(xml, str):
+                    fh.write(xml.encode('utf-8'))
+                else:
+                    fh.write(xml)
 
-        # Read project, adjust paths and extract resources as necessary
-        extracted_resources = {}
-        preprocessorId = QgsPathResolver.setPathPreprocessor(lambda path: self.readProjectPaths(path, cursor, gpkg_filename, tmpdir, extracted_resources))
+            # Read project, adjust paths and extract resources as necessary
+            extracted_resources = {}
+            preprocessorId = QgsPathResolver.setPathPreprocessor(lambda path: self.readProjectPaths(path, cursor, gpkg_filename, tmpdir, extracted_resources))
 
-        self.iface.addProject(output)
-        QgsProject.instance().setFileName(None)
-        QgsProject.instance().setDirty(True)
+            self.iface.addProject(output)
 
-        QgsPathResolver.removePathPreprocessor(preprocessorId)
+            QgsProject.instance().setFileName(None)
+            QgsProject.instance().setDirty(True)
+
+            QgsPathResolver.removePathPreprocessor(preprocessorId)
 
         self.iface.messageBar().pushMessage(
             self.tr("GPKG import completed"), "", Qgis.Info, 5)
