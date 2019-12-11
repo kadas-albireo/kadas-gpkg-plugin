@@ -9,6 +9,7 @@ import sys
 from . import resources
 from .kadas_gpkg_export import KadasGpkgExport
 from .kadas_gpkg_import import KadasGpkgImport
+from .kadas_gpkg_export_extent import KadasGpkgExportByExtent
 from qgis.gui import *
 from kadas.kadasgui import *
 
@@ -64,6 +65,10 @@ class KadasGpkg(QObject):
         self.exportAction.triggered.connect(self.__exportGpkg)
         self.menu.addAction(self.exportAction)
 
+        self.exportByExtentAction = QAction(self.tr("GPKG Export by Extent"))
+        self.exportByExtentAction.triggered.connect(self.__exportGpkgByExtent)
+        self.menu.addAction(self.exportByExtentAction)
+
         self.importShortcut = QShortcut(QKeySequence(Qt.CTRL + Qt.Key_I, Qt.CTRL + Qt.Key_G), self.iface.mainWindow())
         self.importShortcut.activated.connect(self.__importGpkg)
         self.importAction = QAction(self.tr("Import GPKG"))
@@ -86,3 +91,7 @@ class KadasGpkg(QObject):
 
     def __exportGpkg(self):
         KadasGpkgExport(self.iface).run()
+
+    def __exportGpkgByExtent(self):
+        self.kadasExportByExtentMapTool = KadasGpkgExportByExtent(self.iface)
+        self.iface.mapCanvas().setMapTool(self.kadasExportByExtentMapTool)
