@@ -19,9 +19,8 @@ from abc import abstractmethod
 
 class KadasGpkgExportBase(QObject):
 
-    def __init__(self, iface):
+    def __init__(self):
         QObject.__init__(self)
-        self.iface = iface
 
     @abstractmethod
     def run(self):
@@ -81,6 +80,22 @@ class KadasGpkgExportBase(QObject):
             cursor.execute('INSERT INTO qgis_projects VALUES (?,?)', (project_name, project_xml))
         else:
             cursor.execute('UPDATE qgis_projects SET xml=? WHERE name=?', (project_xml, project_name))
+
+    def find_local_layers(self):
+        local_layers = {}
+        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite"]
+
+        for layer in QgsProject.instance().mapLayers().values():
+            provider = "unknown"
+            if layer.type() == QgsMapLayer.VectorLayer or layer.type() == QgsMapLayer.RasterLayer:
+                provider = layer.dataProvider().name()
+            elif layer.type() == QgsMapLayer.PluginLayer:
+                provider = "plugin"
+
+            if provider in local_providers:
+                local_layers[layer.id()] = layer.type()
+
+        return local_layers
 
     def safe_name(self, name):
         return re.sub(r"\W", "", name)

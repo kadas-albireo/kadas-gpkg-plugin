@@ -22,7 +22,8 @@ from .kadas_gpkg_export_base_class import KadasGpkgExportBase
 class KadasGpkgExport(KadasGpkgExportBase):
 
     def __init__(self, iface):
-        KadasGpkgExportBase.__init__(self, iface)
+        KadasGpkgExportBase.__init__(self)
+        self.iface = iface
 
     def run(self):
         dialog = KadasGpkgExportDialog(self.find_local_layers(), self.iface.mainWindow())
@@ -204,22 +205,6 @@ class KadasGpkgExport(KadasGpkgExportBase):
             # No action
             return path
 
-    def find_local_layers(self):
-        local_layers = {}
-        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite"]
-
-        for layer in QgsProject.instance().mapLayers().values():
-            provider = "unknown"
-            if layer.type() == QgsMapLayer.VectorLayer or layer.type() == QgsMapLayer.RasterLayer:
-                provider = layer.dataProvider().name()
-            elif layer.type() == QgsMapLayer.PluginLayer:
-                provider = "plugin"
-
-            if provider in local_providers:
-                local_layers[layer.id()] = layer.type()
-
-        return local_layers
-
     def add_resource(self, cursor, path, resource_id):
         """ Add a resource file to qgis_resources """
         with open(path, 'rb') as fh:
@@ -230,4 +215,3 @@ class KadasGpkgExport(KadasGpkgExportBase):
                 cursor.execute('INSERT INTO qgis_resources VALUES(?, ?, ?)', (resource_id, mime_type, sqlite3.Binary(blob)))
             else:
                 cursor.execute('UPDATE qgis_resources SET mime_type=?, content=? WHERE name=?', (mime_type, sqlite3.Binary(blob), resource_id))
-
