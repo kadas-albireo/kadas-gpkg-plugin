@@ -183,6 +183,15 @@ class KadasGpkgExport(KadasGpkgExportBase):
                 self.tr("GPKG Export"),
                 self.tr("The following layers were not exported to the GeoPackage:\n- %s") % "\n- ".join(messages))
 
+    def write_project(self, cursor, project_xml):
+        """ Write or update qgis project """
+        project_name = "qgpkg"
+        cursor.execute('SELECT count(1) FROM qgis_projects WHERE name=?', (project_name,))
+        if cursor.fetchone()[0] == 0:
+            cursor.execute('INSERT INTO qgis_projects VALUES (?,?)', (project_name, project_xml))
+        else:
+            cursor.execute('UPDATE qgis_projects SET xml=? WHERE name=?', (project_xml, project_name))
+
     def rewriteProjectPaths(self, path, gpkg_filename, added_layers_by_source, layer_sources, additional_resources):
         if not path:
             return path

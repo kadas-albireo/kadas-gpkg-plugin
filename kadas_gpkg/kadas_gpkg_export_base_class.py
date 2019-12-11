@@ -72,15 +72,6 @@ class KadasGpkgExportBase(QObject):
         # Create qgis_resources table
         cursor.execute('CREATE TABLE IF NOT EXISTS qgis_resources (name TEXT PRIMARY KEY, mime_type TEXT NOT NULL, content BLOB NOT NULL)')
 
-    def write_project(self, cursor, project_xml):
-        """ Write or update qgis project """
-        project_name = "qgpkg"
-        cursor.execute('SELECT count(1) FROM qgis_projects WHERE name=?', (project_name,))
-        if cursor.fetchone()[0] == 0:
-            cursor.execute('INSERT INTO qgis_projects VALUES (?,?)', (project_name, project_xml))
-        else:
-            cursor.execute('UPDATE qgis_projects SET xml=? WHERE name=?', (project_xml, project_name))
-
     def find_local_layers(self):
         local_layers = {}
         local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite"]
