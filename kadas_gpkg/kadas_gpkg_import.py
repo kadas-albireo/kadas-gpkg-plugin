@@ -24,13 +24,6 @@ class KadasGpkgImport(QObject):
 
     def run(self, gpkg_filename=None):
 
-        if QgsProject.instance().isDirty():
-            ret = QMessageBox.question(self.iface.mainWindow(), self.tr("Save project?"), self.tr("The project has unsaved changes. Do you want to save them before proceeding?"), QMessageBox.Yes|QMessageBox.No|QMessageBox.Cancel, QMessageBox.Cancel)
-            if ret == QMessageBox.Cancel:
-                return
-            elif ret == QMessageBox.Yes and not self.iface.fileSave():
-                return
-
         if not gpkg_filename:
             lastDir = QSettings().value("/UI/lastImportExportDir", ".")
             gpkg_filename = QFileDialog.getOpenFileName(self.iface.mainWindow(), self.tr("GPKG Import"), lastDir, self.tr("GPKG Database (*.gpkg)"))[0]
@@ -40,7 +33,6 @@ class KadasGpkgImport(QObject):
 
         QSettings().setValue("/UI/lastImportExportDir", os.path.dirname(gpkg_filename))
 
-        self.iface.newProject(False)
         # Open database
         try:
             conn = sqlite3.connect(gpkg_filename)
@@ -49,16 +41,23 @@ class KadasGpkgImport(QObject):
             return
 
         cursor = conn.cursor()
-
-        # Create temporary folder
-        tmpdir = tempfile.mkdtemp()
-
-        # Write project to temporary dir
         xml = self.read_project(cursor)
-        if not xml:
-            self.iface.addVectorLayer(gpkg_filename, None, "ogr")
-            self.iface.addRasterLayer(gpkg_filename, None, "gdal")
-        else:
+
+        if xml:
+            if QgsProject.instance().isDirty():
+                ret = QMessageBox.question(self.iface.mainWindow(), self.tr("Save project?"), self.tr("The project has unsaved changes. Do you want to save them before proceeding?"), QMessageBox.Yes|QMessageBox.No|QMessageBox.Cancel, QMessageBox.Cancel)
+                if ret == QMessageBox.Cancel:
+                    return
+                elif ret == QMessageBox.Yes and not self.iface.saveProject():
+                    return
+
+            # Create temporary folder
+            tmpdir = tempfile.mkdtemp()
+
+            # Write project to temporary dir
+            self.iface.newProject(False)
+            xml = self.read_project(cursor)
+
             output = os.path.join(tmpdir, "gpkg_project.qgs")
             with open(output, "wb") as fh:
                 if isinstance(xml, str):
@@ -77,6 +76,10 @@ class KadasGpkgImport(QObject):
 
             QgsPathResolver.removePathPreprocessor(preprocessorId)
 
+        else:
+            self.iface.addVectorLayer(gpkg_filename, QFileInfo(gpkg_filename).baseName(), "ogr")
+            self.iface.addRasterLayer(gpkg_filename, QFileInfo(gpkg_filename).baseName(), "gdal")
+
         self.iface.messageBar().pushMessage(
             self.tr("GPKG import completed"), "", Qgis.Info, 5)
 
@@ -85,7 +88,7 @@ class KadasGpkgImport(QObject):
         project_name = "qgpkg"
         try:
             cursor.execute('SELECT xml FROM qgis_projects WHERE name=?', (project_name,))
-        except sqlite3.OperationalError:
+        except:
             return None
         qgis_projects = cursor.fetchone()
         if qgis_projects is None:

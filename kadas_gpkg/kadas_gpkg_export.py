@@ -15,8 +15,49 @@ import shutil
 import uuid
 from lxml import etree as ET
 
-from .kadas_gpkg_export_dialog import KadasGpkgExportDialog
-from .kadas_gpkg_export_base_class import KadasGpkgExportBase
+from .kadas_gpkg_export_base import KadasGpkgExportBase
+from .ui_kadas_gpkg_export_dialog import Ui_KadasGpkgExportDialog
+
+
+class KadasGpkgExportDialog(QDialog):
+
+    def __init__(self, parent):
+        QDialog.__init__(self, parent)
+        self.ui = Ui_KadasGpkgExportDialog()
+        self.ui.setupUi(self)
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+
+        self.ui.buttonSelectFile.clicked.connect(self.__selectOutputFile)
+        self.ui.checkBoxClear.toggled.connect(self.__updateLocalLayerList)
+
+    def __selectOutputFile(self):
+        lastDir = QSettings().value("/UI/lastImportExportDir", ".")
+        filename = QFileDialog.getSaveFileName(self, self.tr("Select GPKG File..."), lastDir, self.tr("GPKG Database (*.gpkg)"), "", QFileDialog.DontConfirmOverwrite)[0]
+
+        if not filename:
+            return
+
+        if not filename.lower().endswith(".gpkg"):
+            filename += ".gpkg"
+
+        QSettings().setValue("/UI/lastImportExportDir", os.path.dirname(filename))
+        self.outputGpkg = filename
+        self.ui.lineEditOutputFile.setText(filename)
+
+        self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(filename is not None)
+        self.__updateLocalLayerList()
+
+    def __updateLocalLayerList(self):
+        self.ui.listWidgetLayers.updateLayerList(self.ui.lineEditOutputFile.text() if not self.ui.checkBoxClear.isChecked() else None)
+
+    def outputFile(self):
+        return self.ui.lineEditOutputFile.text()
+
+    def clearOutputFile(self):
+        return self.ui.checkBoxClear.isChecked()
+
+    def selectedLayers(self):
+        return self.ui.listWidgetLayers.getSelectedLayers()
 
 
 class KadasGpkgExport(KadasGpkgExportBase):
@@ -26,15 +67,16 @@ class KadasGpkgExport(KadasGpkgExportBase):
         self.iface = iface
 
     def run(self):
-        dialog = KadasGpkgExportDialog(self.find_local_layers(), self.iface.mainWindow())
+
+        dialog = KadasGpkgExportDialog(self.iface.mainWindow())
         if dialog.exec_() != QDialog.Accepted:
             return
 
         # Write project to temporary file
         tmpdir = QTemporaryDir()
 
-        gpkg_filename = dialog.getOutputFile()
-        selected_layers = dialog.getSelectedLayers()
+        gpkg_filename = dialog.outputFile()
+        selected_layers = dialog.selectedLayers()
         gpkg_writefile = gpkg_filename
 
         if dialog.clearOutputFile():
@@ -56,6 +98,7 @@ class KadasGpkgExport(KadasGpkgExportBase):
 
         cursor = conn.cursor()
         self.init_gpkg(cursor)
+        self.init_gpkg_qgis(cursor)
         conn.commit()
         conn.close()
         QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
@@ -68,55 +111,10 @@ class KadasGpkgExport(KadasGpkgExportBase):
         # Copy all selected local layers to the database
         added_layer_ids = []
         added_layers_by_source = {}
-        canceled = False
         messages = []
-        for layerid in selected_layers:
-            QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
-            if pdialog.wasCanceled():
-                canceled = True
-                break
-
-            layer = QgsProject.instance().mapLayer(layerid)
-
-            if layer.source() in added_layers_by_source:
-                # Don't add the same layer twice
-                continue
-
-            if layer.type() == QgsMapLayer.VectorLayer:
-                saveOptions = QgsVectorFileWriter.SaveVectorOptions()
-                saveOptions.driverName = 'GPKG'
-                saveOptions.layerName = self.safe_name(layer.name())
-                saveOptions.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
-                saveOptions.fileEncoding = 'utf-8'
-                ret = QgsVectorFileWriter.writeAsVectorFormat(
-                    layer, gpkg_writefile, saveOptions)
-                if ret[0] == 0:
-                    added_layer_ids.append(layerid)
-                    added_layers_by_source[layer.source()] = layerid
-                else:
-                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed: error %d (%s)") % (ret[0], ret[1])))
-            elif layer.type() == QgsMapLayer.RasterLayer:
-                provider = layer.dataProvider()
-                writer = QgsRasterFileWriter(gpkg_writefile)
-                writer.setOutputFormat('gpkg')
-                writer.setCreateOptions(['RASTER_TABLE=%s' % self.safe_name(layer.name()), 'APPEND_SUBDATASET=YES'])
-                pipe = QgsRasterPipe()
-                pipe.set(provider.clone())
-
-                projector = QgsRasterProjector()
-                projector.setCrs(provider.crs(), provider.crs())
-                pipe.insert(2, projector)
-
-                ret = writer.writeRaster(pipe, provider.xSize(), provider.ySize(), provider.extent(), provider.crs())
-                if ret == 0:
-                    added_layer_ids.append(layerid)
-                    added_layers_by_source[layer.source()] = layerid
-                else:
-                    messages.append("%s: %s" % (layer.name(), self.tr("Write failed: error %d") % ret))
-        if canceled:
+        if not self.write_local_layers(selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages):
             pdialog.hide()
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
-            conn.rollback()
             return
 
         project = QgsProject.instance()
@@ -182,6 +180,24 @@ class KadasGpkgExport(KadasGpkgExportBase):
                 self.iface.mainWindow(),
                 self.tr("GPKG Export"),
                 self.tr("The following layers were not exported to the GeoPackage:\n- %s") % "\n- ".join(messages))
+
+    def init_gpkg_qgis(self, cursor):
+        # Create extension
+        cursor.execute(
+            'CREATE TABLE IF NOT EXISTS gpkg_extensions (table_name TEXT,column_name TEXT,extension_name TEXT NOT NULL,definition TEXT NOT NULL,scope TEXT NOT NULL,CONSTRAINT ge_tce UNIQUE (table_name, column_name, extension_name))')
+        extension_record = (None, None, 'qgis',
+                            'http://github.com/pka/qgpkg/blob/master/'
+                            'qgis_geopackage_extension.md',
+                            'read-write')
+        cursor.execute('SELECT count(1) FROM gpkg_extensions WHERE extension_name=?', (extension_record[2],))
+        if cursor.fetchone()[0] == 0:
+            cursor.execute('INSERT INTO gpkg_extensions VALUES (?,?,?,?,?)', extension_record)
+
+        # Create qgis_projects table
+        cursor.execute('CREATE TABLE IF NOT EXISTS qgis_projects (name TEXT PRIMARY KEY, xml TEXT NOT NULL)')
+
+        # Create qgis_resources table
+        cursor.execute('CREATE TABLE IF NOT EXISTS qgis_resources (name TEXT PRIMARY KEY, mime_type TEXT NOT NULL, content BLOB NOT NULL)')
 
     def write_project(self, cursor, project_xml):
         """ Write or update qgis project """

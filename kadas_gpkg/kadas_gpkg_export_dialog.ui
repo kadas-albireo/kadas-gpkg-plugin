@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GPKGExportDialog</class>
- <widget class="QDialog" name="GPKGExportDialog">
+ <class>KadasGpkgExportDialog</class>
+ <widget class="QDialog" name="KadasGpkgExportDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>GPKG Export</string>
+   <string>GPKG Project Export</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="8" column="1">
@@ -86,7 +86,7 @@
     </widget>
    </item>
    <item row="5" column="0" colspan="2">
-    <widget class="QListWidget" name="listWidgetLayers">
+    <widget class="KadasGpkgLocalLayersList" name="listWidgetLayers">
      <property name="iconSize">
       <size>
        <width>16</width>
@@ -108,7 +108,7 @@
    <item row="3" column="0" colspan="2">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>The project, including embedded layers (annotations, redlining, ...), will be written to the GeoPackage.</string>
+      <string>The project, including embedded layers (redlining, symbols, pictures, ...), will be written to the GeoPackage.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -155,6 +155,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KadasGpkgLocalLayersList</class>
+   <extends>QListWidget</extends>
+   <header>.kadas_gpkg_local_layers_list</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../qgis-master/images/images.qrc"/>
  </resources>
@@ -162,7 +169,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>GPKGExportDialog</receiver>
+   <receiver>KadasGpkgExportDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -178,7 +185,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>GPKGExportDialog</receiver>
+   <receiver>KadasGpkgExportDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
