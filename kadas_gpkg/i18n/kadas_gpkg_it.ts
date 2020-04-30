@@ -64,12 +64,12 @@
     <message>
         <location filename="../kadas_gpkg.py" line="64"/>
         <source>GPKG Project Export</source>
-        <translation>Esporta progetto a GPKG</translation>
+        <translation>Esporta progetto in GPKG</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg.py" line="68"/>
         <source>GPKG Data Export</source>
-        <translation>Esportazione dati a GPKG</translation>
+        <translation>Esportazione dati in GPKG</translation>
     </message>
 </context>
 <context>
