@@ -4,6 +4,7 @@ from qgis.PyQt.QtWidgets import *
 from qgis.core import *
 
 import os
+import re
 
 class KadasGpkgLocalLayersList(QListWidget):
 
