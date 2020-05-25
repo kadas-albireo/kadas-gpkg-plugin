@@ -10,6 +10,9 @@ email=smani@sourcepole.ch
 
 
 changelog=
+ Rev 2.0.0 (26.05.2020)
+ - Report progress when exporting
+
  Rev 1.92 (01.05.2020)
  - Fix missing re import
 
