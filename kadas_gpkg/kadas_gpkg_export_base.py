@@ -76,11 +76,18 @@ class KadasGpkgExportBase(QObject):
                     continue
 
             if layer.type() == QgsMapLayer.VectorLayer:
+                pdialog.setRange(0, 100)
+                pdialog.setLabelText(self.tr("Writing %s") % layer.name())
+                feedback = QgsFeedback()
+                feedback.progressChanged.connect(lambda prog: self.updateProgress(prog, pdialog))
+                pdialog.canceled.connect(feedback.cancel)
+
                 saveOptions = QgsVectorFileWriter.SaveVectorOptions()
                 saveOptions.driverName = 'GPKG'
                 saveOptions.layerName = self.safe_name(layer.name())
                 saveOptions.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
                 saveOptions.fileEncoding = 'utf-8'
+                saveOptions.feeedback = feedback
                 if layerFilterExtent:
                     saveOptions.filterExtent = layerFilterExtent
                 ret = QgsVectorFileWriter.writeAsVectorFormat(
@@ -92,6 +99,12 @@ class KadasGpkgExportBase(QObject):
                     messages.append("%s: %s" % (layer.name(), self.tr(
                         "Write failed: error %d (%s)") % (ret[0], ret[1])))
             elif layer.type() == QgsMapLayer.RasterLayer:
+                pdialog.setRange(0, 100)
+                pdialog.setLabelText(self.tr("Writing %s") % layer.name())
+                feedback = QgsRasterBlockFeedback()
+                feedback.progressChanged.connect(lambda prog: self.updateProgress(prog, pdialog))
+                pdialog.canceled.connect(feedback.cancel)
+
                 provider = layer.dataProvider()
                 writer = QgsRasterFileWriter(gpkg_writefile)
                 writer.setOutputFormat('gpkg')
@@ -111,14 +124,18 @@ class KadasGpkgExportBase(QObject):
                 ret = writer.writeRaster(pipe, provider.xSize(),
                                          provider.ySize(),
                                          exportExtent,
-                                         provider.crs())
+                                         provider.crs(), feedback)
                 if ret == 0:
                     added_layer_ids.append(layerid)
                     added_layers_by_source[layer.source()] = layerid
                 else:
                     messages.append("%s: %s" % (layer.name(),
                                     self.tr("Write failed: error %d") % ret))
-        return not canceled
+        return not canceled and not pdialog.wasCanceled()
 
     def safe_name(self, name):
         return re.sub(r"\W", "", name)
+
+    def updateProgress(self, progress, pdialog):
+        pdialog.setValue(round(progress))
+        QApplication.processEvents()

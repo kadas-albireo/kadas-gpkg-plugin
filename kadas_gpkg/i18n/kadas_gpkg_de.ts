@@ -305,14 +305,19 @@
 <context>
     <name>KadasGpkgExportBase</name>
     <message>
-        <location filename="../kadas_gpkg_export_base.py" line="92"/>
+        <location filename="../kadas_gpkg_export_base.py" line="99"/>
         <source>Write failed: error %d (%s)</source>
         <translation>Schreibfehler %d (%s)</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export_base.py" line="119"/>
+        <location filename="../kadas_gpkg_export_base.py" line="132"/>
         <source>Write failed: error %d</source>
         <translation>Schreibfehler %d</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg_export_base.py" line="103"/>
+        <source>Writing %s</source>
+        <translation>%s wird geschrieben...</translation>
     </message>
 </context>
 <context>

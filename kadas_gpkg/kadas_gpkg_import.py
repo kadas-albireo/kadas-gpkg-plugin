@@ -77,8 +77,8 @@ class KadasGpkgImport(QObject):
             QgsPathResolver.removePathPreprocessor(preprocessorId)
 
         else:
-            self.iface.addVectorLayer(gpkg_filename, QFileInfo(gpkg_filename).baseName(), "ogr")
-            self.iface.addRasterLayer(gpkg_filename, QFileInfo(gpkg_filename).baseName(), "gdal")
+            self.iface.addVectorLayerQuiet(gpkg_filename, QFileInfo(gpkg_filename).baseName(), "ogr")
+            self.iface.addRasterLayerQuiet(gpkg_filename, QFileInfo(gpkg_filename).baseName(), "gdal")
 
         self.iface.messageBar().pushMessage(
             self.tr("GPKG import completed"), "", Qgis.Info, 5)
