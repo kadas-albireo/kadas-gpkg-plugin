@@ -107,6 +107,7 @@ class KadasGpkgExportBase(QObject):
 
                 provider = layer.dataProvider()
                 writer = QgsRasterFileWriter(gpkg_writefile)
+                writer.setBuildPyramidsFlag(QgsRaster.PyramidsFlagYes)
                 writer.setOutputFormat('gpkg')
                 writer.setCreateOptions(['RASTER_TABLE=%s' % self.safe_name(
                     layer.name()), 'APPEND_SUBDATASET=YES'])
