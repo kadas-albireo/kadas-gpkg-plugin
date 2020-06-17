@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'kadas_gpkg_export_dialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -75,6 +75,9 @@ class Ui_KadasGpkgExportDialog(object):
         self.checkBoxClear = QtWidgets.QCheckBox(KadasGpkgExportDialog)
         self.checkBoxClear.setObjectName("checkBoxClear")
         self.gridLayout.addWidget(self.checkBoxClear, 2, 0, 1, 2)
+        self.checkBoxPyramids = QtWidgets.QCheckBox(KadasGpkgExportDialog)
+        self.checkBoxPyramids.setObjectName("checkBoxPyramids")
+        self.gridLayout.addWidget(self.checkBoxPyramids, 9, 0, 1, 2)
 
         self.retranslateUi(KadasGpkgExportDialog)
         self.buttonBox.accepted.connect(KadasGpkgExportDialog.accept)
@@ -91,4 +94,5 @@ class Ui_KadasGpkgExportDialog(object):
         self.labelOutputFile.setText(_translate("KadasGpkgExportDialog", "Output file:"))
         self.buttonSelectFile.setText(_translate("KadasGpkgExportDialog", "Browse"))
         self.checkBoxClear.setText(_translate("KadasGpkgExportDialog", "Clear existing GeoPackage before exporting"))
+        self.checkBoxPyramids.setText(_translate("KadasGpkgExportDialog", "Generate pyramids (slow)"))
 from .kadas_gpkg_local_layers_list import KadasGpkgLocalLayersList

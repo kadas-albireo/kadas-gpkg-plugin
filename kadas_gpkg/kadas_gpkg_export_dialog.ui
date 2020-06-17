@@ -153,6 +153,13 @@
      </property>
     </widget>
    </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="QCheckBox" name="checkBoxPyramids">
+     <property name="text">
+      <string>Generate pyramids (slow)</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>

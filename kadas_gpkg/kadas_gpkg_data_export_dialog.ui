@@ -14,41 +14,20 @@
    <string>GPKG Data Export</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="labelOutputFile">
-       <property name="text">
-        <string>Output file:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEditOutputFile">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonSelectFile">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="8" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QCheckBox" name="checkBoxClear">
+   <item row="4" column="1">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Clear existing GeoPackage before exporting</string>
+      <string>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</string>
      </property>
     </widget>
    </item>
@@ -94,12 +73,36 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</string>
-     </property>
-    </widget>
+   <item row="0" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="labelOutputFile">
+       <property name="text">
+        <string>Output file:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditOutputFile">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonSelectFile">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Browse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="labelWarnIcon">
@@ -123,17 +126,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="QLabel" name="labelNote">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
+   <item row="7" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBoxExtent">
      <property name="title">
       <string>Restrict extent to export:</string>
@@ -188,13 +181,27 @@
      </layout>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="checkBoxClear">
+     <property name="text">
+      <string>Clear existing GeoPackage before exporting</string>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLabel" name="labelNote">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <widget class="QCheckBox" name="checkBoxPyramids">
+     <property name="text">
+      <string>Generate pyramids (slow)</string>
      </property>
     </widget>
    </item>

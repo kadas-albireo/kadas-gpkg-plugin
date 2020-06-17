@@ -55,7 +55,7 @@ class KadasGpkgExportBase(QObject):
                 CONSTRAINT fk_gc_r_srs_id FOREIGN KEY (srs_id) REFERENCES gpkg_spatial_ref_sys(srs_id)
         )""")
 
-    def write_local_layers(self, selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, filterExtent=None, filterExtentCrs=None):
+    def write_local_layers(self, selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, pyramids, filterExtent=None, filterExtentCrs=None):
         canceled = False
         for layerid in selected_layers:
             QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
@@ -107,7 +107,10 @@ class KadasGpkgExportBase(QObject):
 
                 provider = layer.dataProvider()
                 writer = QgsRasterFileWriter(gpkg_writefile)
-                writer.setBuildPyramidsFlag(QgsRaster.PyramidsFlagYes)
+                if pyramids:
+                    writer.setBuildPyramidsFlag(QgsRaster.PyramidsFlagYes)
+                    writer.setPyramidsList([2, 4, 8, 16, 32, 64, 128])
+                    writer.setPyramidsResampling("AVERAGE")
                 writer.setOutputFormat('gpkg')
                 writer.setCreateOptions(['RASTER_TABLE=%s' % self.safe_name(
                     layer.name()), 'APPEND_SUBDATASET=YES'])
