@@ -77,6 +77,7 @@ class KadasGpkgExportBase(QObject):
 
             if layer.type() == QgsMapLayer.VectorLayer:
                 pdialog.setRange(0, 100)
+                pdialog.setAutoReset(False)
                 pdialog.setLabelText(self.tr("Writing %s") % layer.name())
                 feedback = QgsFeedback()
                 feedback.progressChanged.connect(lambda prog: self.updateProgress(prog, pdialog))
@@ -100,9 +101,10 @@ class KadasGpkgExportBase(QObject):
                         "Write failed: error %d (%s)") % (ret[0], ret[1])))
             elif layer.type() == QgsMapLayer.RasterLayer:
                 pdialog.setRange(0, 100)
+                pdialog.setAutoReset(False)
                 pdialog.setLabelText(self.tr("Writing %s") % layer.name())
                 feedback = QgsRasterBlockFeedback()
-                feedback.progressChanged.connect(lambda prog: self.updateProgress(prog, pdialog))
+                feedback.progressChanged.connect(lambda prog: self.updateProgress(prog, pdialog, pyramids))
                 pdialog.canceled.connect(feedback.cancel)
 
                 provider = layer.dataProvider()
@@ -118,7 +120,7 @@ class KadasGpkgExportBase(QObject):
                 pipe.set(provider.clone())
 
                 projector = QgsRasterProjector()
-                projector.setCrs(provider.crs(), provider.crs())
+                projector.setCrs(provider.crs(), provider.crs(), QgsProject.instance().transformContext())
                 pipe.insert(2, projector)
 
                 exportExtent = provider.extent()
@@ -140,6 +142,9 @@ class KadasGpkgExportBase(QObject):
     def safe_name(self, name):
         return re.sub(r"\W", "", name)
 
-    def updateProgress(self, progress, pdialog):
+    def updateProgress(self, progress, pdialog, pyramids):
         pdialog.setValue(round(progress))
+        if pdialog.value() >= pdialog.maximum() and pyramids:
+            pdialog.setRange(0, 0)
+            pdialog.setLabelText(self.tr("Computing pyramids, please wait..."))
         QApplication.processEvents()

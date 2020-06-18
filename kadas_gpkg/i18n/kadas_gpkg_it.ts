@@ -298,19 +298,24 @@
 <context>
     <name>KadasGpkgExportBase</name>
     <message>
-        <location filename="../kadas_gpkg_export_base.py" line="99"/>
+        <location filename="../kadas_gpkg_export_base.py" line="100"/>
         <source>Write failed: error %d (%s)</source>
         <translation>Errore di scrittura %d (%s)</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export_base.py" line="136"/>
+        <location filename="../kadas_gpkg_export_base.py" line="138"/>
         <source>Write failed: error %d</source>
         <translation>Errore di scrittura %d</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_export_base.py" line="103"/>
+        <location filename="../kadas_gpkg_export_base.py" line="105"/>
         <source>Writing %s</source>
         <translation>Scrivendo %s...</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg_export_base.py" line="149"/>
+        <source>Computing pyramids, please wait...</source>
+        <translation>Calcolo delle piramidi, attendere...</translation>
     </message>
 </context>
 <context>
