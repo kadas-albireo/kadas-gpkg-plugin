@@ -4,13 +4,16 @@ qgisMinimumVersion=3.0
 qgisMaximumVersion=3.99
 description=KADAS GPKG plugin
 about=KADAS GPKG plugin.
-version=1.92
+version=2.0.0
 author=Sourcepole
 email=smani@sourcepole.ch
 
 
 changelog=
- Rev 2.0.0 (26.05.2020)
+ Rev 2.0.0 (18.06.2020)
+ - Set verson to 2.0.0
+
+ Rev 1.93 (26.05.2020)
  - Report progress when exporting
 
  Rev 1.92 (01.05.2020)
