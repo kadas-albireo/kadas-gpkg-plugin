@@ -115,7 +115,7 @@ class KadasGpkgExport(KadasGpkgExportBase):
         added_layer_ids = []
         added_layers_by_source = {}
         messages = []
-        if not self.write_local_layers(selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, self.dialog.buildPyramids()):
+        if not self.write_local_layers(selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, dialog.buildPyramids()):
             pdialog.hide()
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
             return
