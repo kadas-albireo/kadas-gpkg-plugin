@@ -53,12 +53,12 @@ class KadasGpkgLocalLayersList(QListWidget):
             try:
                 filesize = os.path.getsize(filename)
             except:
-                filesize = 0
+                filesize = None
             item = QListWidgetItem(layer.name())
             item.setData(KadasGpkgLocalLayersList.LayerIdRole, layerid)
             item.setData(KadasGpkgLocalLayersList.LayerTypeRole, self.layers[layerid])
             item.setData(KadasGpkgLocalLayersList.LayerSizeRole, filesize)
-            if filesize < KadasGpkgLocalLayersList.WARN_SIZE:
+            if filesize is not None and filesize < KadasGpkgLocalLayersList.WARN_SIZE:
                 item.setCheckState(Qt.Checked)
                 item.setIcon(QIcon())
             else:
@@ -79,9 +79,9 @@ class KadasGpkgLocalLayersList(QListWidget):
                 item.setFlags(item.flags() & ~(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
                 item.setIcon(QIcon(":/images/themes/default/mIconSuccess.svg"))
             else:
-                size = int(item.data(KadasGpkgLocalLayersList.LayerSizeRole))
+                size = item.data(KadasGpkgLocalLayersList.LayerSizeRole)
                 item.setFlags(item.flags() | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                if size < KadasGpkgLocalLayersList.WARN_SIZE:
+                if size is None or int(size) < KadasGpkgLocalLayersList.WARN_SIZE:
                     item.setIcon(QIcon())
                 else:
                     item.setIcon(QIcon(":/images/themes/default/mIconWarning.svg"))
