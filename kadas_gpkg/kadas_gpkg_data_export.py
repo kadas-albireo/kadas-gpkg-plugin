@@ -158,11 +158,6 @@ class KadasGpkgDataExport(KadasMapToolSelectRect, KadasGpkgExportBase):
         conn.close()
         QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
 
-        # Collect layer sources
-        layer_sources = []
-        for layerId, layer in QgsProject.instance().mapLayers().items():
-            layer_sources.append(layer.source())
-
         # Copy all selected local layers to the database
         added_layer_ids = []
         added_layers_by_source = {}
