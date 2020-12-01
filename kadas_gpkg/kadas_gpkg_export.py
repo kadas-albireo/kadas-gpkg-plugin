@@ -107,9 +107,13 @@ class KadasGpkgExport(KadasGpkgExportBase):
         QApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
 
         # Collect layer sources
-        layer_sources = []
+        layer_sources = set()
         for layerId, layer in QgsProject.instance().mapLayers().items():
-            layer_sources.append(layer.source())
+            layer_sources.add(layer.source())
+            if layer.providerType() == "ogr":
+                # QgsVectorLayer::encodedSource separates the path from the subset query and only passes the path to the path resolver
+                layer_sources.add(layer.source().split("|")[0])
+        layer_sources = list(layer_sources)
 
         # Copy all selected local layers to the database
         added_layer_ids = []
