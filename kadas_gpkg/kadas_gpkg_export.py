@@ -21,14 +21,17 @@ from .ui_kadas_gpkg_export_dialog import Ui_KadasGpkgExportDialog
 
 class KadasGpkgExportDialog(QDialog):
 
-    def __init__(self, parent):
+    def __init__(self, parent, iface):
         QDialog.__init__(self, parent)
         self.ui = Ui_KadasGpkgExportDialog()
         self.ui.setupUi(self)
         self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
 
+        self.ui.spinBoxExportScale.setValue(int(iface.mapCanvas().mapSettings().scale()))
+
         self.ui.buttonSelectFile.clicked.connect(self.__selectOutputFile)
         self.ui.checkBoxClear.toggled.connect(self.__updateLocalLayerList)
+        self.ui.checkBoxExportScale.toggled.connect(self.ui.spinBoxExportScale.setEnabled)
 
     def __selectOutputFile(self):
         lastDir = QSettings().value("/UI/lastImportExportDir", ".")
@@ -62,6 +65,9 @@ class KadasGpkgExportDialog(QDialog):
     def buildPyramids(self):
         return self.ui.checkBoxPyramids.isChecked()
 
+    def rasterExportScale(self):
+        return self.ui.spinBoxExportScale.value() if self.ui.checkBoxExportScale.isChecked() else None
+
 
 class KadasGpkgExport(KadasGpkgExportBase):
 
@@ -71,7 +77,7 @@ class KadasGpkgExport(KadasGpkgExportBase):
 
     def run(self):
 
-        dialog = KadasGpkgExportDialog(self.iface.mainWindow())
+        dialog = KadasGpkgExportDialog(self.iface.mainWindow(), self.iface)
         if dialog.exec_() != QDialog.Accepted:
             return
 
@@ -119,7 +125,7 @@ class KadasGpkgExport(KadasGpkgExportBase):
         added_layer_ids = []
         added_layers_by_source = {}
         messages = []
-        if not self.write_local_layers(selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, dialog.buildPyramids()):
+        if not self.write_layers(selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, dialog.buildPyramids(), None, None, dialog.rasterExportScale()):
             pdialog.hide()
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
             return

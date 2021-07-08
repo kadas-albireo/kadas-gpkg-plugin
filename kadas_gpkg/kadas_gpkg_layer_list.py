@@ -6,7 +6,7 @@ from qgis.core import *
 import os
 import re
 
-class KadasGpkgLocalLayersList(QListWidget):
+class KadasGpkgLayersList(QListWidget):
 
     LayerIdRole = Qt.UserRole + 1
     LayerTypeRole = Qt.UserRole + 2
@@ -17,7 +17,7 @@ class KadasGpkgLocalLayersList(QListWidget):
         QListWidget.__init__(self, parent)
 
         self.layers = {}
-        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite", "wcs", "WFS"]
+        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite", "wcs", "wms", "WFS"]
 
         for layer in QgsProject.instance().mapLayers().values():
             provider = "unknown"
@@ -55,10 +55,10 @@ class KadasGpkgLocalLayersList(QListWidget):
             except:
                 filesize = None
             item = QListWidgetItem(layer.name())
-            item.setData(KadasGpkgLocalLayersList.LayerIdRole, layerid)
-            item.setData(KadasGpkgLocalLayersList.LayerTypeRole, self.layers[layerid])
-            item.setData(KadasGpkgLocalLayersList.LayerSizeRole, filesize)
-            if filesize is not None and filesize < KadasGpkgLocalLayersList.WARN_SIZE:
+            item.setData(KadasGpkgLayersList.LayerIdRole, layerid)
+            item.setData(KadasGpkgLayersList.LayerTypeRole, self.layers[layerid])
+            item.setData(KadasGpkgLayersList.LayerSizeRole, filesize)
+            if filesize is not None and filesize < KadasGpkgLayersList.WARN_SIZE:
                 item.setCheckState(Qt.Checked)
                 item.setIcon(QIcon())
             else:
@@ -71,7 +71,7 @@ class KadasGpkgLocalLayersList(QListWidget):
         # Update layer list
         for i in range(0, self.count()):
             item = self.item(i)
-            layerid = item.data(KadasGpkgLocalLayersList.LayerIdRole)
+            layerid = item.data(KadasGpkgLayersList.LayerIdRole)
             layer = QgsProject.instance().mapLayer(layerid)
             # Disable layers already in GPKG
             gpkgLayer = existingOutputGpkg and (layer.source().startswith(existingOutputGpkg) or layer.source().startswith("GPKG:" + existingOutputGpkg))
@@ -79,9 +79,9 @@ class KadasGpkgLocalLayersList(QListWidget):
                 item.setFlags(item.flags() & ~(Qt.ItemIsSelectable | Qt.ItemIsEnabled))
                 item.setIcon(QIcon(":/images/themes/default/mIconSuccess.svg"))
             else:
-                size = item.data(KadasGpkgLocalLayersList.LayerSizeRole)
+                size = item.data(KadasGpkgLayersList.LayerSizeRole)
                 item.setFlags(item.flags() | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                if size is not None and int(size) < KadasGpkgLocalLayersList.WARN_SIZE:
+                if size is not None and int(size) < KadasGpkgLayersList.WARN_SIZE:
                     item.setIcon(QIcon())
                 else:
                     item.setIcon(QIcon(":/images/themes/default/mIconWarning.svg"))
@@ -91,6 +91,6 @@ class KadasGpkgLocalLayersList(QListWidget):
         for i in range(0, self.count()):
             item = self.item(i)
             if item.flags() & Qt.ItemIsEnabled and item.checkState() == Qt.Checked:
-                layerid = item.data(KadasGpkgLocalLayersList.LayerIdRole)
-                layers[layerid] = item.data(KadasGpkgLocalLayersList.LayerTypeRole)
+                layerid = item.data(KadasGpkgLayersList.LayerIdRole)
+                layers[layerid] = item.data(KadasGpkgLayersList.LayerTypeRole)
         return layers

@@ -32,6 +32,7 @@ class KadasGpkgDataExportDialog(QDialog):
         self.ui.lineEditYMin.setValidator(QDoubleValidator())
         self.ui.lineEditXMax.setValidator(QDoubleValidator())
         self.ui.lineEditYMax.setValidator(QDoubleValidator())
+        self.ui.spinBoxExportScale.setValue(int(iface.mapCanvas().mapSettings().scale()))
 
         self.ui.buttonSelectFile.clicked.connect(self.__selectOutputFile)
         self.ui.checkBoxClear.toggled.connect(self.__updateLocalLayerList)
@@ -41,6 +42,7 @@ class KadasGpkgDataExportDialog(QDialog):
         self.ui.lineEditYMin.textEdited.connect(self.__extentEdited)
         self.ui.lineEditXMax.textEdited.connect(self.__extentEdited)
         self.ui.lineEditYMax.textEdited.connect(self.__extentEdited)
+        self.ui.checkBoxExportScale.toggled.connect(self.ui.spinBoxExportScale.setEnabled)
 
     def __extentToggled(self, active):
         if active:
@@ -99,6 +101,9 @@ class KadasGpkgDataExportDialog(QDialog):
 
     def buildPyramids(self):
         return self.ui.checkBoxPyramids.isChecked()
+
+    def rasterExportScale(self):
+        return self.ui.spinBoxExportScale.value() if self.ui.checkBoxExportScale.isChecked() else None
 
 
 class KadasGpkgDataExport(KadasMapToolSelectRect, KadasGpkgExportBase):
@@ -162,7 +167,7 @@ class KadasGpkgDataExport(KadasMapToolSelectRect, KadasGpkgExportBase):
         added_layer_ids = []
         added_layers_by_source = {}
         messages = []
-        if not self.write_local_layers(selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, self.dialog.buildPyramids(), self.rect(), self.iface.mapCanvas().mapSettings().destinationCrs()):
+        if not self.write_layers(selected_layers, gpkg_writefile, pdialog, added_layer_ids, added_layers_by_source, messages, self.dialog.buildPyramids(), self.rect(), self.iface.mapCanvas().mapSettings().destinationCrs(), self.dialog.rasterExportScale()):
             pdialog.hide()
             QMessageBox.warning(self.iface.mainWindow(), self.tr("GPKG Export"), self.tr("The operation was canceled."))
             return

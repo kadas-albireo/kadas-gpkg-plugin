@@ -6,116 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
-    <height>262</height>
+    <width>557</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>GPKG Project Export</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="8" column="1">
-    <widget class="QLabel" name="labelNote">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="labelWarnIcon">
-     <property name="minimumSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../../qgis-master/images/images.qrc">:/images/themes/default/mIconWarning.svg</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="labelCheckIcon">
-     <property name="minimumSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>2</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../../qgis-master/images/images.qrc">:/images/themes/default/mIconSuccess.svg</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="KadasGpkgLocalLayersList" name="listWidgetLayers">
-     <property name="iconSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QLabel" name="labelExport">
-     <property name="text">
-      <string>Additionally, the following local layers will be added to the GeoPackage:</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>The project, including embedded layers (redlining, symbols, pictures, ...), will be written to the GeoPackage.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
+   <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="labelOutputFile">
@@ -146,17 +45,148 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="1" column="0" colspan="2">
     <widget class="QCheckBox" name="checkBoxClear">
      <property name="text">
       <string>Clear existing GeoPackage before exporting</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>The project, including embedded layers (redlining, symbols, pictures, ...), will be written to the GeoPackage.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QLabel" name="labelExport">
+     <property name="text">
+      <string>Additionally, the following layers will be added to the GeoPackage:</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="KadasGpkgLayersList" name="listWidgetLayers">
+     <property name="iconSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelCheckIcon">
+     <property name="minimumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>2</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../../qgis-master/images/images.qrc">:/images/themes/default/mIconSuccess.svg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="labelWarnIcon">
+     <property name="minimumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../../qgis-master/images/images.qrc">:/images/themes/default/mIconWarning.svg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLabel" name="labelNote">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="2">
     <widget class="QCheckBox" name="checkBoxPyramids">
      <property name="text">
       <string>Generate pyramids (slow)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="layoutExportScale">
+     <item>
+      <widget class="QCheckBox" name="checkBoxExportScale">
+       <property name="text">
+        <string>Specify raster export scale:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBoxExportScale">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="suffix">
+        <string notr="true"/>
+       </property>
+       <property name="prefix">
+        <string notr="true">1:</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -164,9 +194,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KadasGpkgLocalLayersList</class>
+   <class>KadasGpkgLayersList</class>
    <extends>QListWidget</extends>
-   <header>.kadas_gpkg_local_layers_list</header>
+   <header>.kadas_gpkg_layer_list</header>
   </customwidget>
  </customwidgets>
  <resources>
