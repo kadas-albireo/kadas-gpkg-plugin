@@ -38,6 +38,9 @@ class KadasGpkgLayersList(QListWidget):
             pos = filename.find("|")
             if pos >= 0:
                 filename = filename[:pos]
+            # Resolve file url
+            if filename.startswith("file://"):
+                filename = filename[7:filename.find("?")]
             # Remove vsi prefix
             if filename.startswith("/vsi"):
                 filename = re.sub(r"/vsi\w+/", "", filename)
