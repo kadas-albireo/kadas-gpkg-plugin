@@ -81,7 +81,7 @@ class KadasGpkgLocalLayersList(QListWidget):
             else:
                 size = item.data(KadasGpkgLocalLayersList.LayerSizeRole)
                 item.setFlags(item.flags() | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                if size is None or int(size) < KadasGpkgLocalLayersList.WARN_SIZE:
+                if size is not None and int(size) < KadasGpkgLocalLayersList.WARN_SIZE:
                     item.setIcon(QIcon())
                 else:
                     item.setIcon(QIcon(":/images/themes/default/mIconWarning.svg"))
