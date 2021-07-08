@@ -17,7 +17,7 @@ class KadasGpkgLocalLayersList(QListWidget):
         QListWidget.__init__(self, parent)
 
         self.layers = {}
-        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite", "wcs"]
+        local_providers = ["delimitedtext", "gdal", "gpx", "mssql", "ogr", "postgres", "spatialite", "wcs", "WFS"]
 
         for layer in QgsProject.instance().mapLayers().values():
             provider = "unknown"
