@@ -115,7 +115,7 @@ class KadasGpkgExportBase(QObject):
                     writer.setPyramidsResampling("AVERAGE")
                 writer.setOutputFormat('gpkg')
                 writer.setCreateOptions(['RASTER_TABLE=%s' % self.safe_name(
-                    layer.name()), 'APPEND_SUBDATASET=YES'])
+                    layer.name()), 'APPEND_SUBDATASET=YES', 'TILE_FORMAT=PNG'])
                 pipe = QgsRasterPipe()
                 pipe.set(provider.clone())
 
