@@ -4,12 +4,15 @@ qgisMinimumVersion=3.0
 qgisMaximumVersion=3.99
 description=KADAS GPKG plugin
 about=KADAS GPKG plugin.
-version=2.1.0
+version=2.2.0
 author=Sourcepole
 email=smani@sourcepole.ch
 
 
 changelog=
+ Rev 2.2.0 (09.08.2021)
+ - Add option to import only selected GPKG project layers
+
  Rev 2.1.0 (19.07.2021)
  - Enable more export formats
  - Store tiles as PNG
