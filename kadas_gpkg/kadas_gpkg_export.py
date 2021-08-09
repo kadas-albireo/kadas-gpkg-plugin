@@ -44,7 +44,6 @@ class KadasGpkgExportDialog(QDialog):
             filename += ".gpkg"
 
         QSettings().setValue("/UI/lastImportExportDir", os.path.dirname(filename))
-        self.outputGpkg = filename
         self.ui.lineEditOutputFile.setText(filename)
 
         self.ui.buttonBox.button(QDialogButtonBox.Ok).setEnabled(filename is not None)
