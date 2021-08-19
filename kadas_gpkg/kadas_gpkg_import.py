@@ -189,6 +189,12 @@ class KadasGpkgImport(QObject):
                 elif ret == QMessageBox.Yes and not self.iface.saveProject():
                     return
 
+            try:
+                conn = sqlite3.connect(importDialog.gpkgFilename())
+            except:
+                return
+            cursor = conn.cursor()
+
             # Create temporary folder
             tmpdir = tempfile.mkdtemp()
 
@@ -212,6 +218,7 @@ class KadasGpkgImport(QObject):
             QgsProject.instance().setDirty(True)
 
             QgsPathResolver.removePathPreprocessor(preprocessorId)
+            conn.close()
 
         self.iface.messageBar().pushMessage(
             self.tr("GPKG import completed"), "", Qgis.Info, 5)
@@ -238,12 +245,11 @@ class KadasGpkgImport(QObject):
             if resource_id in extracted_resources:
                 path = extracted_resources[resource_id]
             else:
-                path = self.extract_resource(cursor, os.path.join(outputdir, resource_id), resource_id)
+                path = self.extract_resource(cursor, os.path.join(tmpdir, resource_id), resource_id)
                 extracted_resources[resource_id] = path
         return path
 
     def gpkgResourceToAttachment(self, path, cursor, gpkg_filename, extracted_resources):
-        print("Hello")
         if not path:
             return path
         path = path.replace("@gpkg_file@", gpkg_filename)
