@@ -7,6 +7,8 @@ from qgis.PyQt.QtXml import *
 
 from qgis.core import *
 from qgis.gui import *
+from kadas.kadascore import *
+from kadas.kadasgui import *
 
 import logging
 import glob
@@ -152,6 +154,11 @@ class KadasGpkgImport(QObject):
             doc = QDomDocument()
             doc.setContent(xml)
             maplayers = doc.elementsByTagName("maplayer")
+            mapcanvasitems = None
+            try:
+                mapcanvasitems = doc.elementsByTagName("MapCanvasItems").at(0).toElement().elementsByTagName("MapItem")
+            except Exception as e:
+                mapcanvasitems = QDomNodeList()
 
             extracted_resources = {}
             preprocessorId = QgsPathResolver.setPathPreprocessor(lambda path: self.gpkgResourceToAttachment(path, cursor, gpkg_filename, extracted_resources))
@@ -162,6 +169,7 @@ class KadasGpkgImport(QObject):
             context.setTransformContext(QgsProject.instance().transformContext())
 
             failed = []
+            addedLayers = []
             for i in range(0, maplayers.size()):
                 maplayer = maplayers.at(i)
                 try:
@@ -174,6 +182,15 @@ class KadasGpkgImport(QObject):
                     continue
                 if not self.addProjectLayer(maplayer.toElement(), context):
                     failed.append(layername)
+                else:
+                    addedLayers.append(layerid)
+
+            for i in range(0, mapcanvasitems.size()):
+                mapcanvasitem = mapcanvasitems.at(i).toElement()
+                if mapcanvasitem.attribute("associatedLayer") in addedLayers:
+                    item = KadasMapItem.fromXml(mapcanvasitem)
+                    if item:
+                        KadasMapCanvasItemManager.addItem(item)
 
             QgsPathResolver.removePathPreprocessor(preprocessorId)
             conn.close()
