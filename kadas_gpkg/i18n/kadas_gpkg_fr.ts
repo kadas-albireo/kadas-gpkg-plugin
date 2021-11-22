@@ -64,12 +64,12 @@
     <message>
         <location filename="../kadas_gpkg.py" line="64"/>
         <source>GPKG Project Export</source>
-        <translation>Exporter projet au GPKG</translation>
+        <translation>Exporter projet en GPKG</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg.py" line="68"/>
         <source>GPKG Data Export</source>
-        <translation>Exporter données au GPKG</translation>
+        <translation>Exporter données en GPKG</translation>
     </message>
 </context>
 <context>
@@ -142,7 +142,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="132"/>
         <source>GPKG Data Export</source>
-        <translation>Exporter données au GPKG</translation>
+        <translation>Exporter données en GPKG</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="133"/>
@@ -348,7 +348,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="104"/>
         <source>GPKG Project Export</source>
-        <translation>Exporter projet au GPKG</translation>
+        <translation>Exporter projet en GPKG</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="90"/>
