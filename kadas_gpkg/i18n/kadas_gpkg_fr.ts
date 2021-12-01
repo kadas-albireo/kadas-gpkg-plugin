@@ -11,12 +11,12 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="87"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Les couches supérieures à 50 Mo sont désactivées par défaut.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Les couches supérieures à 50 Mo sont désactivées par défaut.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="88"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation type="obsolete">&lt;small&gt;&lt;i&gt;Les couches qui sont déjà dans le GeoPackage sont désactivées.&lt;/i&gt;&lt;/small&gt;</translation>
+        <translation type="obsolete">&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Les couches qui sont déjà dans le GeoPackage sont désactivées.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="89"/>
@@ -54,7 +54,7 @@
     <message>
         <location filename="../kadas_gpkg.py" line="74"/>
         <source>Import GPKG</source>
-        <translation>Importation GPKG</translation>
+        <translation type="obsolete">Importation GPKG</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg.py" line="78"/>
@@ -64,12 +64,22 @@
     <message>
         <location filename="../kadas_gpkg.py" line="64"/>
         <source>GPKG Project Export</source>
-        <translation>Exporter projet en GPKG</translation>
+        <translation type="obsolete">Exporter projet en GPKG</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg.py" line="68"/>
         <source>GPKG Data Export</source>
-        <translation>Exporter données en GPKG</translation>
+        <translation type="obsolete">Exporter données en GPKG</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg.py" line="64"/>
+        <source>GPKG Export</source>
+        <translation>Exportation GPKG</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg.py" line="74"/>
+        <source>GPKG Import</source>
+        <translation>Importation GPKG</translation>
     </message>
 </context>
 <context>
@@ -167,12 +177,12 @@
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="137"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation>&lt;small&gt;&lt;i&gt;Les couches qui sont déjà dans le GeoPackage sont désactivées.&lt;/i&gt;&lt;/small&gt;</translation>
+        <translation>&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Les couches qui sont déjà dans le GeoPackage sont désactivées.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="127"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Les couches supérieures à 50 Mo sont désactivées par défaut.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Les couches supérieures à 50 Mo sont désactivées par défaut.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="140"/>
@@ -207,7 +217,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="138"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Les couches dont la taille est inconnue ou supérieure à 50 Mo sont désactivées par défaut.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Les couches dont la taille est inconnue ou supérieure à 50 Mo sont désactivées par défaut.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="136"/>
@@ -353,12 +363,12 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="90"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Les couches supérieures à 50 Mo sont désactivées par défaut.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Les couches supérieures à 50 Mo sont désactivées par défaut.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="110"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation>&lt;small&gt;&lt;i&gt;Les couches qui sont déjà dans le GeoPackage sont désactivées.&lt;/i&gt;&lt;/small&gt;</translation>
+        <translation>&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Les couches qui sont déjà dans le GeoPackage sont désactivées.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="93"/>
@@ -393,7 +403,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="111"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Les couches dont la taille est inconnue ou supérieure à 50 Mo sont désactivées par défaut.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Les couches dont la taille est inconnue ou supérieure à 50 Mo sont désactivées par défaut.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="109"/>
@@ -409,12 +419,12 @@
 <context>
     <name>KadasGpkgImport</name>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="186"/>
+        <location filename="../kadas_gpkg_import.py" line="203"/>
         <source>Save project?</source>
         <translation>Enregistrer le projet?</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="186"/>
+        <location filename="../kadas_gpkg_import.py" line="203"/>
         <source>The project has unsaved changes. Do you want to save them before proceeding?</source>
         <translation>Le projet a des modifications non enregistrées. Enregistrer-les avant de continuer?</translation>
     </message>
@@ -454,17 +464,17 @@
         <translation type="obsolete">Importation GPKG terminé avec succès</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="216"/>
+        <location filename="../kadas_gpkg_import.py" line="240"/>
         <source>GPKG import completed</source>
         <translation>Importation GPKG complétée</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="182"/>
+        <location filename="../kadas_gpkg_import.py" line="199"/>
         <source>Import Errors</source>
         <translation>Erreurs d&apos;importation</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="182"/>
+        <location filename="../kadas_gpkg_import.py" line="199"/>
         <source>The following layers could not be imported:%s</source>
         <translation>Les couches suivantes n&apos;ont pas pu être importées:%s</translation>
     </message>
@@ -472,12 +482,12 @@
 <context>
     <name>KadasGpkgImportDialog</name>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="44"/>
+        <location filename="../kadas_gpkg_import.py" line="46"/>
         <source>Select GPKG File...</source>
         <translation>Choisir le fichier GPKG ...</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="44"/>
+        <location filename="../kadas_gpkg_import.py" line="46"/>
         <source>GPKG Database (*.gpkg)</source>
         <translation>Base des données GPKG (*.gpkg)</translation>
     </message>
@@ -489,7 +499,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_import_dialog.py" line="80"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;The selected GPKG does not contain a QGIS project, and will be imported as a layer.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Le GPKG sélectionné ne contient pas de projet QGIS, et sera importé comme une couche.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-style:italic;&amp;quot;&amp;gt;Le GPKG sélectionné ne contient pas de projet QGIS, et sera importé comme une couche.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_import_dialog.py" line="81"/>

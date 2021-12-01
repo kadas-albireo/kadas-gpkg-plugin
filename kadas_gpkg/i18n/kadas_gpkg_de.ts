@@ -11,12 +11,12 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="87"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Ebenen grösser als 50 MB sind standardmässig deaktiviert.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="88"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation type="obsolete">&lt;small&gt;&lt;i&gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&lt;/i&gt;&lt;/small&gt;</translation>
+        <translation type="obsolete">&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="89"/>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../kadas_gpkg.py" line="74"/>
         <source>Import GPKG</source>
-        <translation>GPKG Import</translation>
+        <translation type="obsolete">GPKG Import</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg.py" line="78"/>
@@ -69,12 +69,22 @@
     <message>
         <location filename="../kadas_gpkg.py" line="64"/>
         <source>GPKG Project Export</source>
-        <translation>GPKG Projekt-Export</translation>
+        <translation type="obsolete">GPKG Projekt-Export</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg.py" line="68"/>
         <source>GPKG Data Export</source>
-        <translation>GPKG Daten-Export</translation>
+        <translation type="obsolete">GPKG Daten-Export</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg.py" line="64"/>
+        <source>GPKG Export</source>
+        <translation>GPKG Export</translation>
+    </message>
+    <message>
+        <location filename="../kadas_gpkg.py" line="74"/>
+        <source>GPKG Import</source>
+        <translation>GPKG Import</translation>
     </message>
 </context>
 <context>
@@ -172,12 +182,12 @@
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="137"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation>&lt;small&gt;&lt;i&gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&lt;/i&gt;&lt;/small&gt;</translation>
+        <translation>&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="127"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Ebenen grösser als 50 MB sind standardmässig deaktiviert.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="140"/>
@@ -212,7 +222,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="138"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="136"/>
@@ -365,12 +375,12 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="90"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Ebenen grösser als 50 MB sind standardmässig deaktiviert.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="110"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation>&lt;small&gt;&lt;i&gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&lt;/i&gt;&lt;/small&gt;</translation>
+        <translation>&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="93"/>
@@ -405,7 +415,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="111"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="109"/>
@@ -421,12 +431,12 @@
 <context>
     <name>KadasGpkgImport</name>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="186"/>
+        <location filename="../kadas_gpkg_import.py" line="203"/>
         <source>Save project?</source>
         <translation>Projekt speichern?</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="186"/>
+        <location filename="../kadas_gpkg_import.py" line="203"/>
         <source>The project has unsaved changes. Do you want to save them before proceeding?</source>
         <translation>Das Projekt enthält enthält nicht gespeicherte Änderungen. Soll es gespeichert werden?</translation>
     </message>
@@ -466,17 +476,17 @@
         <translation type="obsolete">GPKG Import erfolgreich abgeschlossen</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="216"/>
+        <location filename="../kadas_gpkg_import.py" line="240"/>
         <source>GPKG import completed</source>
         <translation>GPKG Import abgeschlossen</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="182"/>
+        <location filename="../kadas_gpkg_import.py" line="199"/>
         <source>Import Errors</source>
         <translation>Importfehler</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="182"/>
+        <location filename="../kadas_gpkg_import.py" line="199"/>
         <source>The following layers could not be imported:%s</source>
         <translation>Folgende Ebenen konnten nicht importiert werden:%s</translation>
     </message>
@@ -484,12 +494,12 @@
 <context>
     <name>KadasGpkgImportDialog</name>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="44"/>
+        <location filename="../kadas_gpkg_import.py" line="46"/>
         <source>Select GPKG File...</source>
         <translation>GPKG Datei auswählen...</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg_import.py" line="44"/>
+        <location filename="../kadas_gpkg_import.py" line="46"/>
         <source>GPKG Database (*.gpkg)</source>
         <translation>GPKG Datenbank (*.gpkg)</translation>
     </message>
@@ -501,7 +511,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_import_dialog.py" line="80"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;The selected GPKG does not contain a QGIS project, and will be imported as a layer.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Die ausgewählte GPKG enthält kein QGIS Projekt, und wird daher als Ebene importiert.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-style:italic;&amp;quot;&amp;gt;Die ausgewählte GPKG enthält kein QGIS Projekt, und wird daher als Ebene importiert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_import_dialog.py" line="81"/>
