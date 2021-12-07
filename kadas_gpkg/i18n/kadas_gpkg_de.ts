@@ -62,7 +62,7 @@
         <translation type="obsolete">GPKG Import</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg.py" line="78"/>
+        <location filename="../kadas_gpkg.py" line="73"/>
         <source>GPKG</source>
         <translation>GPKG</translation>
     </message>
@@ -77,12 +77,12 @@
         <translation type="obsolete">GPKG Daten-Export</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg.py" line="64"/>
+        <location filename="../kadas_gpkg.py" line="63"/>
         <source>GPKG Export</source>
         <translation>GPKG Export</translation>
     </message>
     <message>
-        <location filename="../kadas_gpkg.py" line="74"/>
+        <location filename="../kadas_gpkg.py" line="69"/>
         <source>GPKG Import</source>
         <translation>GPKG Import</translation>
     </message>
@@ -92,53 +92,53 @@
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="189"/>
         <source>Error</source>
-        <translation>Fehler</translation>
+        <translation type="obsolete">Fehler</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="147"/>
         <source>Unable to create or open output file</source>
-        <translation>Ausgabedatei konnte nicht erstellt oder geöffnet werden</translation>
+        <translation type="obsolete">Ausgabedatei konnte nicht erstellt oder geöffnet werden</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="153"/>
         <source>Writing %s...</source>
-        <translation>%s wird geschrieben...</translation>
+        <translation type="obsolete">%s wird geschrieben...</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="153"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation type="obsolete">Abbrechen</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="198"/>
         <source>GPKG Export</source>
-        <translation>GPKG Export</translation>
+        <translation type="obsolete">GPKG Export</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="172"/>
         <source>The operation was canceled.</source>
-        <translation>Der Export wurde abgebrochen.</translation>
+        <translation type="obsolete">Der Export wurde abgebrochen.</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="177"/>
         <source>No data was exported.</source>
-        <translation>Keine Daten wurden exportiert.</translation>
+        <translation type="obsolete">Keine Daten wurden exportiert.</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="189"/>
         <source>Unable to create output file</source>
-        <translation>Ausgabedatei konnte nicht erstellt werden</translation>
+        <translation type="obsolete">Ausgabedatei konnte nicht erstellt werden</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="194"/>
         <source>GPKG export completed</source>
-        <translation>GPKG Export abgeschlossen</translation>
+        <translation type="obsolete">GPKG Export abgeschlossen</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="198"/>
         <source>The following layers were not exported to the GeoPackage:
 - %s</source>
-        <translation>Folgende Ebenen wurden nicht in das GeoPackage geschrieben:
+        <translation type="obsolete">Folgende Ebenen wurden nicht in das GeoPackage geschrieben:
 - %s</translation>
     </message>
 </context>
@@ -147,32 +147,32 @@
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="75"/>
         <source>Select GPKG File...</source>
-        <translation>GPKG Datei auswählen...</translation>
+        <translation type="obsolete">GPKG Datei auswählen...</translation>
     </message>
     <message>
         <location filename="../kadas_gpkg_data_export.py" line="75"/>
         <source>GPKG Database (*.gpkg)</source>
-        <translation>GPKG Datenbank (*.gpkg)</translation>
+        <translation type="obsolete">GPKG Datenbank (*.gpkg)</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="132"/>
         <source>GPKG Data Export</source>
-        <translation>GPKG Daten-Export</translation>
+        <translation type="obsolete">GPKG Daten-Export</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="133"/>
         <source>Output file:</source>
-        <translation>Ausgabedatei:</translation>
+        <translation type="obsolete">Ausgabedatei:</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="134"/>
         <source>Browse</source>
-        <translation>Durchsuchen</translation>
+        <translation type="obsolete">Durchsuchen</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="135"/>
         <source>Clear existing GeoPackage before exporting</source>
-        <translation>Existierendes GeoPackage vor dem Export löschen</translation>
+        <translation type="obsolete">Existierendes GeoPackage vor dem Export löschen</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="119"/>
@@ -182,7 +182,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="137"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation>&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
+        <translation type="obsolete">&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="127"/>
@@ -192,42 +192,42 @@
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="140"/>
         <source>Restrict extent to export:</source>
-        <translation>Export-Ausschnitt begrenzen:</translation>
+        <translation type="obsolete">Export-Ausschnitt begrenzen:</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="141"/>
         <source>Y Max.:</source>
-        <translation>Y Max.:</translation>
+        <translation type="obsolete">Y Max.:</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="142"/>
         <source>X Min.:</source>
-        <translation>X Min.:</translation>
+        <translation type="obsolete">X Min.:</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="143"/>
         <source>Y Min.:</source>
-        <translation>Y Min.:</translation>
+        <translation type="obsolete">Y Min.:</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="144"/>
         <source>X Max.:</source>
-        <translation>X Max.:</translation>
+        <translation type="obsolete">X Max.:</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="139"/>
         <source>Generate pyramids (slow)</source>
-        <translation>Pyramiden generieren (langsam)</translation>
+        <translation type="obsolete">Pyramiden generieren (langsam)</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="138"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_data_export_dialog.py" line="136"/>
         <source>Add the following layers to the GeoPackage:</source>
-        <translation>Folgende Ebenen dem GeoPackage hinzugefügen:</translation>
+        <translation type="obsolete">Folgende Ebenen dem GeoPackage hinzugefügen:</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="110"/>
         <source>&lt;small&gt;&lt;i&gt;Layers already part of the output GeoPackage are disabled.&lt;/i&gt;&lt;/small&gt;</source>
-        <translation>&amp;lt;small&amp;gt;&amp;lt;i&amp;gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&amp;lt;/i&amp;gt;&amp;lt;/small&amp;gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;Ebenen, die bereits im GeoPackage enthalten sind, sind deaktiviert.&lt;/i&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="93"/>
@@ -415,7 +415,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="111"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:small; font-style:italic;&quot;&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-size:small; font-style:italic;&amp;quot;&amp;gt;Ebenen mit unbekannter Grösse oder grösser als 50 MB sind standardmässig deaktiviert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="109"/>
@@ -426,6 +426,11 @@
         <location filename="../ui_kadas_gpkg_export_dialog.py" line="113"/>
         <source>Specify raster export scale:</source>
         <translation>Raster Exportmassstab angeben:</translation>
+    </message>
+    <message>
+        <location filename="../ui_kadas_gpkg_export_dialog.py" line="111"/>
+        <source>&lt;small&gt;&lt;i&gt;Layers with unknown size or larger than 50 MB are deselected by default.&lt;/i&gt;&lt;/span&gt;</source>
+        <translation>&lt;small&gt;&lt;i&gt;Ebenen grösser als 50 MB sind standardmässig deaktiviert.&lt;/i&gt;&lt;/small&gt;</translation>
     </message>
 </context>
 <context>
@@ -511,7 +516,7 @@
     <message>
         <location filename="../ui_kadas_gpkg_import_dialog.py" line="80"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;The selected GPKG does not contain a QGIS project, and will be imported as a layer.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-style:italic;&amp;quot;&amp;gt;Die ausgewählte GPKG enthält kein QGIS Projekt, und wird daher als Ebene importiert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
+        <translation type="obsolete">&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;&amp;lt;span style=&amp;quot; font-style:italic;&amp;quot;&amp;gt;Die ausgewählte GPKG enthält kein QGIS Projekt, und wird daher als Ebene importiert.&amp;lt;/span&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui_kadas_gpkg_import_dialog.py" line="81"/>
@@ -537,6 +542,11 @@
         <location filename="../ui_kadas_gpkg_import_dialog.py" line="83"/>
         <source>Load entire project</source>
         <translation>Ganzes projekt laden</translation>
+    </message>
+    <message>
+        <location filename="../ui_kadas_gpkg_import_dialog.py" line="80"/>
+        <source>&lt;i&gt;The selected GPKG does not contain a QGIS project, and will be imported as a layer.&lt;/i&gt;</source>
+        <translation>&lt;i&gt;Die ausgewählte GPKG enthält kein QGIS Projekt, und wird daher als Ebene importiert.&lt;/i&gt;</translation>
     </message>
 </context>
 </TS>
