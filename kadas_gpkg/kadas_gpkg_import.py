@@ -153,6 +153,11 @@ class KadasGpkgImport(QObject):
             layerIds = importDialog.selectedLayerIds()
             doc = QDomDocument()
             doc.setContent(xml)
+
+            # Migrate 1.x projects if necessary
+            filesToAttach = []
+            KadasProjectMigration.migrateProjectXml("", doc, filesToAttach)
+
             maplayers = doc.elementsByTagName("maplayer")
             mapcanvasitems = None
             try:
